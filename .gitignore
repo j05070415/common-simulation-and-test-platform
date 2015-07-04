@@ -25,3 +25,26 @@ proguard/
 
 # Log Files
 *.log
+
+#VS
+*.sdf
+*.suo
+*.dll
+*.obj
+*.exp
+*.lib
+*.pdb
+*.ilk
+*.exe
+*.xml
+*.user
+*.filters
+*.tlog
+*.manifest
+*.lastbuildstate
+*.cache
+ipch/
+bin/
+config/
+Debug/
+Release/
