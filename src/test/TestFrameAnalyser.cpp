@@ -12,7 +12,8 @@ struct CanTestData
 	uint d: 4;
 	uint e: 7;
 	uint f: 7;
-	int g;
+	char g[4];
+	int h;
 };
 
 void TestAnalyser()
@@ -25,7 +26,8 @@ void TestAnalyser()
 	c->d = 11;//1011
 	c->e = 127;//111 1111
 	c->f = 129;//1000 0000
-	c->g = -1;
+	c->h = -1;
+	memcpy(c->g, "Helo", 4);
 	HwaPlatformConfigManager& mgr = HwaPlatformConfigManager::getManager();
 	mgr.setFile("../config/framework-config.xml");
 	HwaFrameConfigManager& frameMgr = HwaFrameConfigManager::getManager();
@@ -38,6 +40,7 @@ void TestAnalyser()
 	segments.push_back(5);
 	segments.push_back(6);
 	segments.push_back(7);
+	segments.push_back(8);
 	uchar* data = (uchar*)(c);
 	HwaCommonFrameAnalyser analyser;
 	analyser.setData(data);
@@ -45,7 +48,7 @@ void TestAnalyser()
 	SmartBitsets bitsets = analyser.analyse(segments);
 	foreach (SmartBitset bitset, bitsets)
 	{
-		printf("value=%lf\n", bitset->toDouble());
+		printf("value=%s\n", bitset->toStdString().c_str());
 	}
 
 }

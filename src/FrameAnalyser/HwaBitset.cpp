@@ -51,10 +51,7 @@ HwaBitset& HwaBitset::operator=(const HwaBitset& bit)
 
 std::string HwaBitset::toStdString() const
 {
-	int length = (_size + 7)/8;
-	_data[length] = '\0';
-
-	return (char*)_data;
+	return std::string((char*)_data, (_size + 7)/8);
 }
 
 ulong HwaBitset::toULong() const
