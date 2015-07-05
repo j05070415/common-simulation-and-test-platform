@@ -1,0 +1,12 @@
+#ifndef CANPROJECT_GLOBAL_H
+#define CANPROJECT_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#ifdef CANPROJECT_LIB
+# define CANPROJECT_EXPORT Q_DECL_EXPORT
+#else
+# define CANPROJECT_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // CANPROJECT_GLOBAL_H

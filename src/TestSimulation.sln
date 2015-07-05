@@ -8,6 +8,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ResourceManager", "Resource
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test", "test\test.vcxproj", "{1B4DD224-86F0-41B5-A485-626EB5B36B80}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CanProject", "CanProject\CanProject.vcxproj", "{F7296F06-176E-4B15-A38A-419A45930896}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -30,6 +32,10 @@ Global
 		{1B4DD224-86F0-41B5-A485-626EB5B36B80}.Debug|Win32.Build.0 = Debug|Win32
 		{1B4DD224-86F0-41B5-A485-626EB5B36B80}.Release|Win32.ActiveCfg = Release|Win32
 		{1B4DD224-86F0-41B5-A485-626EB5B36B80}.Release|Win32.Build.0 = Release|Win32
+		{F7296F06-176E-4B15-A38A-419A45930896}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F7296F06-176E-4B15-A38A-419A45930896}.Debug|Win32.Build.0 = Debug|Win32
+		{F7296F06-176E-4B15-A38A-419A45930896}.Release|Win32.ActiveCfg = Release|Win32
+		{F7296F06-176E-4B15-A38A-419A45930896}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

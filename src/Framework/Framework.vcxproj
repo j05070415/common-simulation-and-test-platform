@@ -142,7 +142,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="main.qml" />
     <CustomBuild Include="qml.qrc">
       <FileType>Document</FileType>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">qml.qrc;main.qml;%(AdditionalInputs)</AdditionalInputs>
@@ -162,6 +161,9 @@ endlocal</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">RCC qml.qrc</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">debug\qrc_qml.cpp;%(Outputs)</Outputs>
     </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="HwaHomePage.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
