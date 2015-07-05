@@ -32,9 +32,9 @@ void HwaFrameAnalyser::setFrameInfor(const FrameInfor& frame)
 	d->_frameInfor = frame;
 }
 
-QSharedPointer<uchar> HwaFrameAnalyser::getData() const
+uchar* HwaFrameAnalyser::getData() const
 {
-	return _p->_data;
+	return _p->_data.data();
 }
 
 FrameInfor HwaFrameAnalyser::getFrameInfor() const

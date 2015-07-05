@@ -27,7 +27,8 @@ public:
 private:
 	Q_DISABLE_COPY(HwaCommonFrameAnalyser);
 
-	void calculateOffset(FrameInfor& frameInfor, const QSharedPointer<uchar>& data);
+	void calculateOffset(FrameInfor& frameInfor, const uchar* data);
+	inline uchar* readValue(const uchar* data, int offset, int& size);
 
 private:
 	bool _calculated;

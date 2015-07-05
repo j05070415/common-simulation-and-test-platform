@@ -29,7 +29,7 @@ public:
 	void setFrameInfor(const FrameInfor& frame);
 
 protected:
-	QSharedPointer<uchar> getData() const;
+	uchar* getData() const;
 	FrameInfor getFrameInfor() const;
 
 private:

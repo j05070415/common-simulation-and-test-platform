@@ -46,7 +46,7 @@ struct SegmentInfor
 	HwaString name;
 	int size;
 	int offset;
-	int reference;//offset = refValue + refSize
+	int reference;//offset = refOffset + refSize + refValue
 	bool previous;//offset = preOffset + preSize
 	HwaString description;
 };

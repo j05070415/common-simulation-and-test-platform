@@ -43,6 +43,7 @@ proguard/
 *.manifest
 *.lastbuildstate
 *.cache
+*.opensdf
 ipch/
 bin/
 config/
