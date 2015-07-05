@@ -1,5 +1,9 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
+        <file>Project/HomePage.qml</file>
+        <file>Project/CanDataView.qml</file>
+        <file>Project/CanProject.qml</file>
+        <file>Project/CanStaticsView.qml</file>
     </qresource>
 </RCC>

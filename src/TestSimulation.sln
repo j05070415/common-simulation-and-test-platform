@@ -1,6 +1,10 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Framework", "Framework\Framework.vcxproj", "{C26C3860-C13C-30A7-BFF3-013E7D54095D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F7296F06-176E-4B15-A38A-419A45930896} = {F7296F06-176E-4B15-A38A-419A45930896}
+		{C3AB3D51-4536-3F08-9B42-F2381A8A3669} = {C3AB3D51-4536-3F08-9B42-F2381A8A3669}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FrameAnalyser", "FrameAnalyser\FrameAnalyser.vcxproj", "{0C0299E9-BC18-326E-9200-328AE3587B5C}"
 EndProject
@@ -9,6 +13,15 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test", "test\test.vcxproj", "{1B4DD224-86F0-41B5-A485-626EB5B36B80}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CanProject", "CanProject\CanProject.vcxproj", "{F7296F06-176E-4B15-A38A-419A45930896}"
+	ProjectSection(ProjectDependencies) = postProject
+		{EDAC9C09-C4EC-4AFD-BC0C-6F4BE3DB78AF} = {EDAC9C09-C4EC-4AFD-BC0C-6F4BE3DB78AF}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DataViewBinder", "DataViewBinder\DataViewBinder.vcxproj", "{EDAC9C09-C4EC-4AFD-BC0C-6F4BE3DB78AF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C3AB3D51-4536-3F08-9B42-F2381A8A3669} = {C3AB3D51-4536-3F08-9B42-F2381A8A3669}
+		{0C0299E9-BC18-326E-9200-328AE3587B5C} = {0C0299E9-BC18-326E-9200-328AE3587B5C}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,6 +49,10 @@ Global
 		{F7296F06-176E-4B15-A38A-419A45930896}.Debug|Win32.Build.0 = Debug|Win32
 		{F7296F06-176E-4B15-A38A-419A45930896}.Release|Win32.ActiveCfg = Release|Win32
 		{F7296F06-176E-4B15-A38A-419A45930896}.Release|Win32.Build.0 = Release|Win32
+		{EDAC9C09-C4EC-4AFD-BC0C-6F4BE3DB78AF}.Debug|Win32.ActiveCfg = Debug|Win32
+		{EDAC9C09-C4EC-4AFD-BC0C-6F4BE3DB78AF}.Debug|Win32.Build.0 = Debug|Win32
+		{EDAC9C09-C4EC-4AFD-BC0C-6F4BE3DB78AF}.Release|Win32.ActiveCfg = Release|Win32
+		{EDAC9C09-C4EC-4AFD-BC0C-6F4BE3DB78AF}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

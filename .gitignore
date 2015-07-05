@@ -38,6 +38,7 @@ proguard/
 *.exe
 *.xml
 *.user
+*。user.*
 *.filters
 *.tlog
 *.manifest
