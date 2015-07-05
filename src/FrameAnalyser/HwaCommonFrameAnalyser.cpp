@@ -29,7 +29,7 @@ HwaCommonFrameAnalyser::~HwaCommonFrameAnalyser()
 SmartBitsets HwaCommonFrameAnalyser::analyse(const QVector<int>& segments)
 {
 	FrameInfor frameInfor = this->getFrameInfor();
-	uchar* data = getData();
+	uchar* data = this->getData();
 	if (_calculated && frameInfor.type == "rtti")
 	{
 		this->calculateOffset(frameInfor, data);
@@ -89,9 +89,13 @@ uchar* HwaCommonFrameAnalyser::readValue(const uchar* data, int offset, int& siz
 	{
 		length = (size + 7)/8;
 		buffer = new uchar[length];
-		memcpy(buffer, data + offset/8, (size + 7)/8);
-		uchar* p = buffer + length - 1;
-		*p &= (0xFF >> (8 - size%8));
+		memcpy(buffer, data + offset/8, length);
+
+		if (size % 8 != 0)
+		{
+			uchar* p = buffer + length - 1;
+			*p &= (0xFF >> (8 - size%8));
+		}
 	}
 	else
 	{
@@ -101,7 +105,11 @@ uchar* HwaCommonFrameAnalyser::readValue(const uchar* data, int offset, int& siz
 		length = (left + 7) / 8 + (right + 7) / 8;
 
 		buffer = new uchar[length];
-		memcpy(buffer, data + offset/8, (right + 7)/8);
+		memcpy(buffer, data + offset/8, length);
+		//高位截断,防止移位时杂项数据干扰
+		if ((offset + size) % 8 != 0)
+			*(buffer + length - 1) &= (0xFF >> (8 - (offset+size)%8));
+
 		//按字节移位
 		uchar* p = buffer;
 		uchar* next = p;
@@ -116,12 +124,8 @@ uchar* HwaCommonFrameAnalyser::readValue(const uchar* data, int offset, int& siz
 			++p;
 		}
 
-		if (right%8 > leftOffset)
-		{
-			//高位截断
-			*next &= (0xFF >> (8 - right%8));
-			*next >>= leftOffset;
-		}
+		//最后一字节数据操作
+		*next >>= leftOffset;
 	}
 
 	size = length;

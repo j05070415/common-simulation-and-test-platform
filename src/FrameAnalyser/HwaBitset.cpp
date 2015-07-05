@@ -51,22 +51,62 @@ HwaBitset& HwaBitset::operator=(const HwaBitset& bit)
 
 std::string HwaBitset::toStdString() const
 {
-	return "";
+	int length = (_size + 7)/8;
+	_data[length] = '\0';
+
+	return (char*)_data;
 }
 
 ulong HwaBitset::toULong() const
 {
-	return 0;
+	if ((_size + 7)/8 > 4)
+	{
+		return 0;
+	}
+
+	ulong temp = 0;
+	memcpy(&temp, _data, (_size + 7)/8);
+
+	return temp;
 }
 
 ullong HwaBitset::toULLong() const
 {
-	return 0;
+	if ((_size + 7)/8 > 8)
+	{
+		return 0;
+	}
+
+	ullong temp = 0;
+	memcpy(&temp, _data, (_size + 7)/8);
+
+	return temp;
 }
 
 double HwaBitset::toDouble() const
 {
-	return 0.0;
+	int length = (_size + 7)/8;
+	if (length > 8)
+	{
+		return 0;
+	}
+	
+	ullong temp = 0;
+	Q_ASSERT(sizeof temp == 8);
+	memcpy(&temp, _data, length);
+
+	//²¹Âë
+	int flag = 1;
+	if (temp >> (_size - 1) == 1)
+	{
+		temp = ~temp;
+		temp &= (0xFFFFFFFFFFFFFFFF >> (64 - _size));
+
+		++temp;
+		flag = -1;
+	}
+
+	return 1.0 * flag * temp;
 }
 
 uchar* HwaBitset::cloneData() const

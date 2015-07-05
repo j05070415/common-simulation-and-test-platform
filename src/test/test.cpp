@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string>
 void TestResourceManager();
+void TestAnalyser();
 
 class Data
 {
@@ -73,34 +74,37 @@ int main(int argc, char* argv[])
 	//printf("%d ", p->g);
 	//printf("%d ", p->h);
 
-	printf("can sizeof=%d\n", sizeof(Can));
-	//10 - 000 0110 0100 - 1
-	Can c;
-	memset(&c, 0, sizeof c);
-	c.a = 1;
-	c.b = 100;
-	c.c = 2;
+	//printf("can sizeof=%d\n", sizeof(Can));
+	////10 - 000 0110 0100 - 1
+	//Can c;
+	//memset(&c, 0, sizeof c);
+	//c.a = 1;
+	//c.b = 100;
+	//c.c = 2;
 
-	uchar* p = (uchar*)(&c);
-	uchar buff[2] = {0};
-	memcpy(buff, p, sizeof buff);
-	//uchar v1 = *p;
-	int aSize = 1;
-	int bSize = 11;
-	int unitSize = sizeof(uchar);
-	(*buff) >>= aSize;
-	p++;
-	(*buff) |= (*p) << (unitSize - aSize);
-	//buff[0] = v1;
+	//uchar* p = (uchar*)(&c);
+	//uchar buff[2] = {0};
+	//memcpy(buff, p, sizeof buff);
+	////uchar v1 = *p;
+	//int aSize = 1;
+	//int bSize = 11;
+	//int unitSize = sizeof(uchar);
+	//(*buff) >>= aSize;
+	//p++;
+	//(*buff) |= (*p) << (unitSize - aSize);
+	////buff[0] = v1;
 
-	*(buff+1) = *p;
-	*(buff+1) &= (*p >> aSize) & (0xFF >> (unitSize - (bSize - unitSize)));
-	//buff[1] = v1;
+	//*(buff+1) = *p;
+	//*(buff+1) &= (*p >> aSize) & (0xFF >> (unitSize - (bSize - unitSize)));
+	////buff[1] = v1;
 
-	uint res = 0;
-	memcpy(&res, buff, sizeof buff);
+	//uint res = 0;
+	//memcpy(&res, buff, sizeof buff);
 
-	printf("res=%u\n", res);
+	//printf("res=%u\n", res);
+
+
+	TestAnalyser();
 	return 0;
 }
 

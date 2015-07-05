@@ -11,6 +11,8 @@
 
 #include <string>
 
+#include "frameanalyser_global.h"
+
 typedef unsigned char uchar;
 typedef unsigned short ushort;
 typedef unsigned long ulong;
@@ -22,7 +24,7 @@ typedef unsigned long long ullong;
 *			无符号整形、无符号长整形和对数据与或非等基本功能，暂不提供写功能.
 *	Details
 */
-class HwaBitset
+class FRAMEANALYSERSHARED_EXPORT HwaBitset
 {
 public:
 	HwaBitset();

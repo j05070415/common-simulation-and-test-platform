@@ -9,6 +9,7 @@
 #ifndef __HWACOMMONFRAMEANALYSER_H__
 #define __HWACOMMONFRAMEANALYSER_H__
 
+#include "frameanalyser_global.h"
 #include "HwaFrameAnalyser.h"
 
 /**
@@ -16,7 +17,7 @@
 *	\breif 通用帧解析器，提供对一般数据进行解析实现.
 *	Details
 */
-class HwaCommonFrameAnalyser : public HwaFrameAnalyser
+class FRAMEANALYSERSHARED_EXPORT HwaCommonFrameAnalyser : public HwaFrameAnalyser
 {
 public:
 	HwaCommonFrameAnalyser();

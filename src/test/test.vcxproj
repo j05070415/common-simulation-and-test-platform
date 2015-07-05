@@ -59,7 +59,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>Qt5Cored.lib;ResourceManagerd.lib;tinyxmld.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Qt5Cored.lib;ResourceManagerd.lib;tinyxmld.lib;FrameAnalyserd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>%QTDIR%\lib;..\ResourceManager</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -86,7 +86,6 @@
     <None Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\FrameAnalyser\HwaBitset.h" />
     <ClInclude Include="..\ResourceManager\HwaFrameConfigManager.h" />
     <ClInclude Include="..\ResourceManager\HwaPlatformConfigManager.h" />
     <ClInclude Include="..\ResourceManager\HwaViewConfigManager.h" />
@@ -95,13 +94,13 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\FrameAnalyser\HwaBitset.cpp" />
     <ClCompile Include="..\ResourceManager\HwaFrameConfigManager.cpp" />
     <ClCompile Include="..\ResourceManager\HwaPlatformConfigManager.cpp" />
     <ClCompile Include="..\ResourceManager\HwaViewConfigManager.cpp" />
     <ClCompile Include="..\ResourceManager\StringHelper.cpp" />
     <ClCompile Include="test.cpp" />
     <ClCompile Include="TestBitset.cpp" />
+    <ClCompile Include="TestFrameAnalyser.cpp" />
     <ClCompile Include="TestResourceMgr.cpp" />
   </ItemGroup>
   <ItemGroup>
