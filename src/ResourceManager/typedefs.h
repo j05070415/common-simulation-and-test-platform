@@ -14,7 +14,6 @@
 #include <vector>
 
 typedef std::string HwaString;
-typedef std::hash_map<HwaString, std::vector<int> > HwaItemBindingHash;
 
 // \struct ProjectInfor
 struct ProjectInfor
@@ -25,6 +24,12 @@ struct ProjectInfor
 	HwaString description;
 };
 
+struct ViewInfor
+{
+	HwaString name;
+	HwaString binder;
+};
+
 // \struct ProjectCardInfor
 struct ProjectCardInfor
 {
@@ -32,11 +37,18 @@ struct ProjectCardInfor
 	HwaString frameId;
 };
 
+struct SourceInfor
+{
+	HwaString id;
+	HwaString path;
+	std::vector<int> segments;
+};
+
 // \struct ItemInfor
 struct ItemInfor 
 {
 	HwaString objName;
-	HwaItemBindingHash id2Segments;
+	std::vector<SourceInfor> sources;
 };
 
 struct SegmentInfor 
@@ -68,5 +80,15 @@ struct FrameInfor
 
 #define H_D(Class) \
 	Class##Private* const d = d_func()
+
+typedef int (*InitModulePointer)();
+
+#define REGISTER_META_TYPE(type) qRegisterMetaType<type>(#type)
+
+#define INIT_MODULE(a) \
+	extern "C" _declspec(dllexport) int initModule() \
+{ \
+	return qRegisterMetaType<a>(#a); \
+}
 
 #endif //__TYPEDEFS_H__

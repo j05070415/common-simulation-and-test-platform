@@ -10,19 +10,13 @@
 #define __HWAANALYSERBASE_H__
 
 #include <QVector>
-#include <QSharedPointer>
 
-#include "HwaBitset.h"
-#include "typedefs.h"
-#include "frameanalyser_global.h"
+#include "analysertypedefs.h"
 
-typedef QSharedPointer<HwaBitset> SmartBitset;
-typedef QVector<SmartBitset > SmartBitsets;
-
-class FRAMEANALYSERSHARED_EXPORT HwaAnalyserBase
+class HwaAnalyserBase
 {
 public:
-	virtual SmartBitsets analyse(const QVector<int>& segments) = 0;
+	virtual SmartBitsets analyse(uchar* data, const QVector<int>& segments) = 0;
 };
 
 #endif //__HWAANALYSERBASE_H__

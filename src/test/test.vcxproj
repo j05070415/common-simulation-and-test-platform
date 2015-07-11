@@ -61,6 +61,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>Qt5Cored.lib;ResourceManagerd.lib;tinyxmld.lib;FrameAnalyserd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>%QTDIR%\lib;..\ResourceManager</AdditionalLibraryDirectories>
+      <DelayLoadDLLs>
+      </DelayLoadDLLs>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -86,17 +88,11 @@
     <None Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\ResourceManager\HwaFrameConfigManager.h" />
-    <ClInclude Include="..\ResourceManager\HwaPlatformConfigManager.h" />
-    <ClInclude Include="..\ResourceManager\HwaViewConfigManager.h" />
     <ClInclude Include="..\ResourceManager\StringHelper.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\ResourceManager\HwaFrameConfigManager.cpp" />
-    <ClCompile Include="..\ResourceManager\HwaPlatformConfigManager.cpp" />
-    <ClCompile Include="..\ResourceManager\HwaViewConfigManager.cpp" />
     <ClCompile Include="..\ResourceManager\StringHelper.cpp" />
     <ClCompile Include="test.cpp" />
     <ClCompile Include="TestBitset.cpp" />

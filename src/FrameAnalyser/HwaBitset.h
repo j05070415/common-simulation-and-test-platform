@@ -34,6 +34,8 @@ public:
 	HwaBitset(const HwaBitset& bit);
 	HwaBitset& operator=(const HwaBitset& bit);
 
+	void setData(uchar* data);
+
 	uchar* cloneData() const;
 	int size() const;
 

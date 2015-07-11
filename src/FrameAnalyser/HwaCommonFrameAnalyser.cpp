@@ -26,10 +26,10 @@ HwaCommonFrameAnalyser::~HwaCommonFrameAnalyser()
 
 }
 
-SmartBitsets HwaCommonFrameAnalyser::analyse(const QVector<int>& segments)
+SmartBitsets HwaCommonFrameAnalyser::analyse(uchar* data, const QVector<int>& segments)
 {
 	FrameInfor frameInfor = this->getFrameInfor();
-	uchar* data = this->getData();
+
 	if (_calculated && frameInfor.type == "rtti")
 	{
 		this->calculateOffset(frameInfor, data);

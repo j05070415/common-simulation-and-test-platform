@@ -116,10 +116,13 @@ std::vector<ItemInfor> HwaViewConfigManager::findAll(TiXmlElement* view) const
 		TiXmlElement* itemChild = viewChild->FirstChildElement();
 		while (itemChild != NULL)
 		{
-			HwaString key = itemChild->Attribute("ID");
+			SourceInfor source;
+			source.id = itemChild->Attribute("ID");
+			source.path = itemChild->Attribute("path");
+
 			HwaString value = itemChild->GetText();
-			std::vector<int> splits = StringHelper::SplitInt(value, ';');
-			item.id2Segments[key] = splits;
+			source.segments = StringHelper::SplitInt(value, ';');
+			item.sources.push_back(source);
 
 			itemChild = itemChild->NextSiblingElement();
 		}
@@ -153,10 +156,13 @@ ItemInfor HwaViewConfigManager::findItem(TiXmlElement* view, const HwaString& ob
 		TiXmlElement* itemChild = viewChild->FirstChildElement();
 		while (itemChild != NULL)
 		{
-			HwaString key = itemChild->Attribute("ID");
+			SourceInfor source;
+			source.id = itemChild->Attribute("ID");
+			source.path = itemChild->Attribute("path");
+
 			HwaString value = itemChild->GetText();
-			std::vector<int> splits = StringHelper::SplitInt(value, ';');
-			item.id2Segments[key] = splits;
+			source.segments = StringHelper::SplitInt(value, ';');
+			item.sources.push_back(source);
 
 			itemChild = itemChild->NextSiblingElement();
 		}
@@ -165,4 +171,29 @@ ItemInfor HwaViewConfigManager::findItem(TiXmlElement* view, const HwaString& ob
 	}
 
 	return item;
+}
+
+std::vector<ViewInfor> HwaViewConfigManager::getViews(const HwaString& projectName) const
+{
+	std::vector<ViewInfor> views;
+	HwaPlatformConfigManager& platformMgr = HwaPlatformConfigManager::getManager();
+	HwaString viewConfigPath = platformMgr.getViewConfigPath();
+	TiXmlDocument doc(viewConfigPath.c_str());
+	if (doc.LoadFile())
+	{
+		TiXmlElement* root = doc.RootElement();
+		TiXmlElement* projectNode = this->findProject(root, projectName);
+
+		TiXmlElement* projectChild = projectNode->FirstChildElement();
+		while (projectChild != NULL)
+		{
+			ViewInfor infor;
+			infor.name = projectChild->Attribute("class");
+			infor.binder = projectChild->Attribute("binder");
+
+			views.push_back(infor);
+		}
+	}
+
+	return views;
 }

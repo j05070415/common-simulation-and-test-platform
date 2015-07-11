@@ -1,6 +1,6 @@
 
 #include "HwaFrameAnalyser.h"
-#include "HwaCommonFrameAnalyser.h"
+#include "HwaAnalyserManager.h"
 #include "HwaPlatformConfigManager.h"
 #include "HwaFrameConfigManager.h"
 
@@ -31,7 +31,7 @@ void TestAnalyser()
 	HwaPlatformConfigManager& mgr = HwaPlatformConfigManager::getManager();
 	mgr.setFile("../config/framework-config.xml");
 	HwaFrameConfigManager& frameMgr = HwaFrameConfigManager::getManager();
-	FrameInfor frameInfor = frameMgr.getFrameInfor("00000011110");
+	FrameInfor frameInfor = frameMgr.getFrameInfor("00000011111");
 	QVector<int> segments;
 	segments.push_back(1);
 	segments.push_back(2);
@@ -42,13 +42,11 @@ void TestAnalyser()
 	segments.push_back(7);
 	segments.push_back(8);
 	uchar* data = (uchar*)(c);
-	HwaCommonFrameAnalyser analyser;
-	analyser.setData(data);
-	analyser.setFrameInfor(frameInfor);
-	SmartBitsets bitsets = analyser.analyse(segments);
+	HwaAnalyserManager& analyseMgr = HwaAnalyserManager::getManager();
+	SmartBitsets bitsets = analyseMgr.analyse(data, frameInfor.id.c_str(), segments);
 	foreach (SmartBitset bitset, bitsets)
 	{
-		printf("value=%s\n", bitset->toStdString().c_str());
+		printf("value=%lf\n", bitset->toDouble());
 	}
 
 }

@@ -108,7 +108,7 @@ std::vector<ProjectInfor> HwaPlatformConfigManager::getProjectsInfor() const
 	return projects;
 }
 
-std::vector<ProjectCardInfor> HwaPlatformConfigManager::getProjectCardInfors(const HwaString& type) const
+std::vector<ProjectCardInfor> HwaPlatformConfigManager::getProjectCardInfors(const HwaString& name) const
 {
 	std::vector<ProjectCardInfor> cards;
 
@@ -125,7 +125,7 @@ std::vector<ProjectCardInfor> HwaPlatformConfigManager::getProjectCardInfors(con
 				do
 				{
 					std::string tag = child->Value();
-					if (tag == "project" && HwaString(child->Attribute("type")) == type)
+					if (tag == "project" && HwaString(child->Attribute("class")) == name)
 					{
 						TiXmlElement* cardChild = child->FirstChildElement();
 						if (cardChild != NULL)
@@ -167,4 +167,19 @@ void HwaPlatformConfigManager::setFile( const HwaString& file )
 HwaString HwaPlatformConfigManager::getFile() const
 {
 	return _p->_file;
+}
+
+HwaString HwaPlatformConfigManager::getHomePageDescription() const
+{
+	TiXmlDocument doc(_p->_file.c_str());
+	if (doc.LoadFile())
+	{
+		TiXmlElement* root = doc.RootElement();
+		if (root != NULL)
+		{
+			return root->Attribute("information");
+		}
+	}
+
+	return "";
 }

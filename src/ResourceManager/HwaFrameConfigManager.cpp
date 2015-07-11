@@ -11,9 +11,8 @@ struct HwaFrameConfigManagerPrivate
 
 HwaFrameConfigManager& HwaFrameConfigManager::getManager()
 {
-	static HwaFrameConfigManager* mgr = new HwaFrameConfigManager;
-
-	return *mgr;
+	static HwaFrameConfigManager mgr;
+	return mgr;
 }
 
 FrameInfor HwaFrameConfigManager::getFrameInfor(const HwaString& frameId) const

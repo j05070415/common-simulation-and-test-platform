@@ -9,7 +9,6 @@
 #ifndef __HWACOMMONFRAMEANALYSER_H__
 #define __HWACOMMONFRAMEANALYSER_H__
 
-#include "frameanalyser_global.h"
 #include "HwaFrameAnalyser.h"
 
 /**
@@ -17,17 +16,15 @@
 *	\breif 通用帧解析器，提供对一般数据进行解析实现.
 *	Details
 */
-class FRAMEANALYSERSHARED_EXPORT HwaCommonFrameAnalyser : public HwaFrameAnalyser
+class HwaCommonFrameAnalyser : public HwaFrameAnalyser
 {
 public:
 	HwaCommonFrameAnalyser();
 	~HwaCommonFrameAnalyser();
 
-	virtual SmartBitsets analyse(const QVector<int>& segments);
+	virtual SmartBitsets analyse(uchar* data, const QVector<int>& segments);
 	
 private:
-	Q_DISABLE_COPY(HwaCommonFrameAnalyser);
-
 	void calculateOffset(FrameInfor& frameInfor, const uchar* data);
 	inline uchar* readValue(const uchar* data, int offset, int& size);
 

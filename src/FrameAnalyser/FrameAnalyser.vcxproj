@@ -114,7 +114,7 @@
       <WarningLevel>Level3</WarningLevel>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>Qt5Cored.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Qt5Cored.lib;ResourceManagerd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -124,6 +124,9 @@
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
       <SubSystem>Windows</SubSystem>
       <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DelayLoadDLLs>ResourceManagerd.dll</DelayLoadDLLs>
+      <ForceSymbolReferences>
+      </ForceSymbolReferences>
     </Link>
     <Midl>
       <DefaultCharType>Unsigned</DefaultCharType>
@@ -135,16 +138,19 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="HwaAnalyserManager.cpp" />
     <ClCompile Include="HwaBitset.cpp" />
     <ClCompile Include="HwaCommonFrameAnalyser.cpp" />
     <ClCompile Include="HwaFrameAnalyser.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HwaAnalyserBase.h" />
+    <ClInclude Include="HwaAnalyserManager.h" />
     <ClInclude Include="HwaBitset.h" />
     <ClInclude Include="HwaCommonFrameAnalyser.h" />
     <ClInclude Include="HwaFrameAnalyser.h" />
     <ClInclude Include="frameanalyser_global.h" />
+    <ClInclude Include="analysertypedefs.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ResourceManager\ResourceManager.vcxproj">

@@ -31,6 +31,9 @@ void TestPlatformConfigManager()
 	HwaFrameConfigManager& frameMgr = HwaFrameConfigManager::getManager();
 	FrameInfor frameInfor = frameMgr.getFrameInfor("00000011111");
 	printFrame(frameInfor);
+
+	HwaString information = mgr.getHomePageDescription();
+	printf("page infor=%s\n", information.c_str());
 }
 
 void TestStringHelper()
@@ -48,11 +51,11 @@ void TestStringHelper()
 void PrintItemInfor(ItemInfor& item)
 {
 	printf("obj name=%s\n", QString::fromUtf8(item.objName.c_str()).toLocal8Bit().constData());
-	HwaItemBindingHash::iterator iter = item.id2Segments.begin();
-	while (iter != item.id2Segments.end())
+	std::vector<SourceInfor>::iterator iter = item.sources.begin();
+	while (iter != item.sources.end())
 	{
-		printf("id=%s", (*iter).first.c_str());
-		foreach (int id, (*iter).second)
+		printf("id=%s,path=%s ", (*iter).id.c_str(), (*iter).path.c_str());
+		foreach (int id, (*iter).segments)
 		{
 			printf(" seg id=%d", id);
 		}

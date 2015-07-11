@@ -49,7 +49,7 @@ void TestBitSet();
 
 int main(int argc, char* argv[])
 {
-	//TestResourceManager();
+	TestResourceManager();
 	/*GOO g1;
 	g1.p.i = 1;
 	GOO g2;
@@ -104,7 +104,7 @@ int main(int argc, char* argv[])
 	//printf("res=%u\n", res);
 
 
-	TestAnalyser();
+	//TestAnalyser();
 	return 0;
 }
 

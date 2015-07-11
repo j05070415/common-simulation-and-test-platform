@@ -40,6 +40,8 @@ public:
 	*    \returns HwaString
 	*/
 	HwaString getProtocalConfigPath() const;
+
+	HwaString getHomePageDescription() const;
 	
 	/**
 	*    \fn    getProjectsInfor
@@ -51,12 +53,12 @@ public:
 	
 	/**
 	*    \fn    getProjectCardInfors
-	*    \brief 获取工程下配置所有板卡信息.
-	
-	*    \param const HwaString & type
+	*    \brief 获取工程下配置所有板卡信息
+	*			name为工程类名.
+	*    \param const HwaString & name
 	*    \returns std::vector<ProjectCardInfor>
 	*/
-	std::vector<ProjectCardInfor> getProjectCardInfors(const HwaString& type) const;
+	std::vector<ProjectCardInfor> getProjectCardInfors(const HwaString& name) const;
 	
 	/**
 	*    \fn    getFile

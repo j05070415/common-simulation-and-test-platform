@@ -126,3 +126,8 @@ int HwaBitset::size() const
 {
 	return _size;
 }
+
+void HwaBitset::setData(uchar* data)
+{
+	_data = data;
+}

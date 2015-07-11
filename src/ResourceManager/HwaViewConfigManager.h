@@ -47,6 +47,8 @@ public:
 						   const HwaString& viewName, 
 						   const HwaString& objName) const;
 
+	std::vector<ViewInfor> getViews(const HwaString& projectName) const;
+
 private:
 	HwaViewConfigManager();
 	~HwaViewConfigManager();

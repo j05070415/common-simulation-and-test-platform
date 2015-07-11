@@ -9,35 +9,28 @@
 #ifndef __HWAFRAMEANALYSER_H__
 #define __HWAFRAMEANALYSER_H__
 
-#include "frameanalyser_global.h"
-#include "HwaAnalyserBase.h"
+#include "typedefs.h"
 
-struct HwaFrameAnalyserPrivate;
+#include "HwaAnalyserBase.h"
 
 /**
 *	\class HwaFrameAnalyser
 *	\breif 接口实现，analyse为空实现，需自行继承实现.
 *	Details
 */
-class FRAMEANALYSERSHARED_EXPORT HwaFrameAnalyser : public HwaAnalyserBase
+class HwaFrameAnalyser : public HwaAnalyserBase
 {
 public:
 	HwaFrameAnalyser();
 	virtual ~HwaFrameAnalyser();
 
-	void setData(uchar* data);
 	void setFrameInfor(const FrameInfor& frame);
 
 protected:
-	uchar* getData() const;
 	FrameInfor getFrameInfor() const;
 
 private:
-	H_DECLARE_PRIVATE(HwaFrameAnalyser);
-	Q_DISABLE_COPY(HwaFrameAnalyser);
-
-private:
-	HwaFrameAnalyserPrivate* _p;	
+	FrameInfor _frameInfor;
 };
 
 #endif //__FRAMEANALYSER_H__
