@@ -1,9 +1,20 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>Project/HomePage.qml</file>
-        <file>Project/CanDataView.qml</file>
-        <file>Project/CanProject.qml</file>
-        <file>Project/CanStaticsView.qml</file>
+        <file>SysComponent/Content.qml</file>
+        <file>SysComponent/LabelBtn.qml</file>
+        <file>SysComponent/MainWidget.qml</file>
+        <file>SysComponent/TopTitle.qml</file>
+        <file>SysComponent/SysBtn.qml</file>
+        <file>SysComponent/SysBtnGroup.qml</file>
+        <file>SysComponent/TabWidget.qml</file>
+        <file>SysComponent/ToolBtn.qml</file>
+        <file>SysComponent/max_restore_funcion.js</file>
+        <file>SysComponent/data_view.js</file>
+        <file>CanProject/CanDataView.qml</file>
+        <file>CanProject/CanProject.qml</file>
+        <file>CanProject/CanStaticsView.qml</file>
+        <file>CanProject/HomePage.qml</file>
+        <file>CanProject/CanTableView.qml</file>
     </qresource>
 </RCC>

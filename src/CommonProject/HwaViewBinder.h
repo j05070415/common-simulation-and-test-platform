@@ -15,10 +15,13 @@
 #include <QVector>
 #include <QVariant>
 #include <QQueue>
+#include <QWaitCondition>
+#include <QMutex>
 
 #include "commonproject_global.h"
 
 class HwaProjectView;
+class HwaDataSource;
 
 /**
 *	\class HwaViewBinder
@@ -44,14 +47,21 @@ public:
 	*/
 	void reset();
 
-public slots:
+	/**
+	*    \fn    query
+	*    \brief  命令格式为JSON字符串.
+	*    \param QString & command
+	*    \returns uchar*
+	*/
+	void query(QString& command);
+
 	/**
 	*    \fn    enqueue
 	*    \brief 将数据查询信息添加到队列中.
 	*    \param const QString & infors
 	*    \returns void
 	*/
-	void enqueue(const QString& infor);
+	void enqueue(const QString& infor, uchar* data);
 	
 	/**
 	*    \fn    processReportInfor
@@ -59,20 +69,12 @@ public slots:
 	*    \param const QString & infor
 	*    \returns void
 	*/
-	virtual void processReportInfor(const QString& infor);
+	virtual QVector<QString> processReportInfor(const QString& infor);
 
 protected:
 	virtual void run();
 
 private:
-	/**
-	*    \fn    query
-	*    \brief  命令格式为JSON字符串.
-	*    \param QString & command
-	*    \returns uchar*
-	*/
-	uchar* query(QString& command);
-	
 	/**
 	*    \fn    findView
 	*    \brief 按照视图名称查找字符串.
@@ -81,14 +83,21 @@ private:
 	*/
 	HwaProjectView* findView(const QString& viewName);
 
+	void abort();
+	void wakeOne();
+
 protected:
 	QVector<HwaProjectView*> _views;
 	//TODO:将server数据变化信号与view 数据变化信号相连
-	//Server* _server;
+	HwaDataSource* _source;
 
 	static const int MAX_CACHE = 20;
 	// card/path/row/count
-	QQueue<QString> _cache;
+	QQueue<QPair<QString, uchar*> > _cache;
+
+	//线程中断，恢复
+	QMutex _mutex;
+	QWaitCondition _condition;
 };
 
 #endif //__HWAVIEWBINDER_H__

@@ -50,6 +50,7 @@ public:
 	*    \returns std::vector<ProjectInfor>
 	*/
 	std::vector<ProjectInfor> getProjectsInfor() const;
+	ProjectInfor getProjectInfor(const HwaString& projectName);
 	
 	/**
 	*    \fn    getProjectCardInfors

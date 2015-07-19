@@ -29,13 +29,16 @@ class CANPROJECT_EXPORT HwaCanProject : public HwaCommonProject
 public:
 	HwaCanProject();
 	~HwaCanProject();
+	HwaCanProject(const HwaCanProject& copy);
 
 	virtual QString name();
 	virtual bool newProject();
 	virtual bool open(const QString& path);
 	virtual bool save(const QString& path);
 	virtual bool close();
-	virtual void onAction(const QString& action);
+	virtual void onAction(const QString& action, const QVariant& param);
+
+	HwaProjectView* findView(const QString& name);
 
 private:
 	void clear();

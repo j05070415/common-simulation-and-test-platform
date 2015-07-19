@@ -1,7 +1,7 @@
 
 #include "HwaCommonFrameAnalyser.h"
 
-SegmentInfor findSegment(const HwaSegments& segments, int id)
+SegmentInfor HwaCommonFrameAnalyser::findSegment(const HwaSegments& segments, int id)
 {
 	HwaSegments::const_iterator iter = segments.begin();
 	for (; iter != segments.end(); ++iter)
@@ -30,10 +30,10 @@ SmartBitsets HwaCommonFrameAnalyser::analyse(uchar* data, const QVector<int>& se
 {
 	FrameInfor frameInfor = this->getFrameInfor();
 
-	if (_calculated && frameInfor.type == "rtti")
+	if (frameInfor.type == "rtti")
 	{
+		//必须全部重新计算，反之，就不会计算中间中变长字段的大小和偏移
 		this->calculateOffset(frameInfor, data);
-		_calculated = true;
 	}
 
 	SmartBitsets bitsets;
@@ -70,10 +70,7 @@ void HwaCommonFrameAnalyser::calculateOffset(FrameInfor& frameInfor, const uchar
 			buffer = 0;
 			int size = refSegment.size;
 			uchar* res = this->readValue(data, refSegment.offset, size);
-			size = qMin<int>(size, sizeof buffer);
 			memcpy(&buffer, res, size);
-			delete[] res;
-			res = NULL;
 
 			segment.offset = refSegment.offset + refSegment.size + buffer;
 		}

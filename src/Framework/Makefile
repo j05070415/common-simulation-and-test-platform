@@ -85,15 +85,11 @@ Makefile: Framework.pro C:\Qt\Qt5.4.2\5.4\msvc2010_opengl\mkspecs\win32-msvc2010
 		C:\Qt\Qt5.4.2\5.4\msvc2010_opengl\mkspecs\modules\qt_lib_bluetooth.pri \
 		C:\Qt\Qt5.4.2\5.4\msvc2010_opengl\mkspecs\modules\qt_lib_bluetooth_private.pri \
 		C:\Qt\Qt5.4.2\5.4\msvc2010_opengl\mkspecs\modules\qt_lib_bootstrap_private.pri \
-		C:\Qt\Qt5.4.2\5.4\msvc2010_opengl\mkspecs\modules\qt_lib_charts.pri \
-		C:\Qt\Qt5.4.2\5.4\msvc2010_opengl\mkspecs\modules\qt_lib_charts_private.pri \
 		C:\Qt\Qt5.4.2\5.4\msvc2010_opengl\mkspecs\modules\qt_lib_clucene_private.pri \
 		C:\Qt\Qt5.4.2\5.4\msvc2010_opengl\mkspecs\modules\qt_lib_concurrent.pri \
 		C:\Qt\Qt5.4.2\5.4\msvc2010_opengl\mkspecs\modules\qt_lib_concurrent_private.pri \
 		C:\Qt\Qt5.4.2\5.4\msvc2010_opengl\mkspecs\modules\qt_lib_core.pri \
 		C:\Qt\Qt5.4.2\5.4\msvc2010_opengl\mkspecs\modules\qt_lib_core_private.pri \
-		C:\Qt\Qt5.4.2\5.4\msvc2010_opengl\mkspecs\modules\qt_lib_datavisualization.pri \
-		C:\Qt\Qt5.4.2\5.4\msvc2010_opengl\mkspecs\modules\qt_lib_datavisualization_private.pri \
 		C:\Qt\Qt5.4.2\5.4\msvc2010_opengl\mkspecs\modules\qt_lib_dbus.pri \
 		C:\Qt\Qt5.4.2\5.4\msvc2010_opengl\mkspecs\modules\qt_lib_dbus_private.pri \
 		C:\Qt\Qt5.4.2\5.4\msvc2010_opengl\mkspecs\modules\qt_lib_declarative.pri \
@@ -126,8 +122,6 @@ Makefile: Framework.pro C:\Qt\Qt5.4.2\5.4\msvc2010_opengl\mkspecs\win32-msvc2010
 		C:\Qt\Qt5.4.2\5.4\msvc2010_opengl\mkspecs\modules\qt_lib_positioning_private.pri \
 		C:\Qt\Qt5.4.2\5.4\msvc2010_opengl\mkspecs\modules\qt_lib_printsupport.pri \
 		C:\Qt\Qt5.4.2\5.4\msvc2010_opengl\mkspecs\modules\qt_lib_printsupport_private.pri \
-		C:\Qt\Qt5.4.2\5.4\msvc2010_opengl\mkspecs\modules\qt_lib_purchasing.pri \
-		C:\Qt\Qt5.4.2\5.4\msvc2010_opengl\mkspecs\modules\qt_lib_purchasing_private.pri \
 		C:\Qt\Qt5.4.2\5.4\msvc2010_opengl\mkspecs\modules\qt_lib_qml.pri \
 		C:\Qt\Qt5.4.2\5.4\msvc2010_opengl\mkspecs\modules\qt_lib_qml_private.pri \
 		C:\Qt\Qt5.4.2\5.4\msvc2010_opengl\mkspecs\modules\qt_lib_qmldevtools_private.pri \
@@ -220,15 +214,11 @@ C:\Qt\Qt5.4.2\5.4\msvc2010_opengl\mkspecs\modules\qt_lib_axserver_private.pri:
 C:\Qt\Qt5.4.2\5.4\msvc2010_opengl\mkspecs\modules\qt_lib_bluetooth.pri:
 C:\Qt\Qt5.4.2\5.4\msvc2010_opengl\mkspecs\modules\qt_lib_bluetooth_private.pri:
 C:\Qt\Qt5.4.2\5.4\msvc2010_opengl\mkspecs\modules\qt_lib_bootstrap_private.pri:
-C:\Qt\Qt5.4.2\5.4\msvc2010_opengl\mkspecs\modules\qt_lib_charts.pri:
-C:\Qt\Qt5.4.2\5.4\msvc2010_opengl\mkspecs\modules\qt_lib_charts_private.pri:
 C:\Qt\Qt5.4.2\5.4\msvc2010_opengl\mkspecs\modules\qt_lib_clucene_private.pri:
 C:\Qt\Qt5.4.2\5.4\msvc2010_opengl\mkspecs\modules\qt_lib_concurrent.pri:
 C:\Qt\Qt5.4.2\5.4\msvc2010_opengl\mkspecs\modules\qt_lib_concurrent_private.pri:
 C:\Qt\Qt5.4.2\5.4\msvc2010_opengl\mkspecs\modules\qt_lib_core.pri:
 C:\Qt\Qt5.4.2\5.4\msvc2010_opengl\mkspecs\modules\qt_lib_core_private.pri:
-C:\Qt\Qt5.4.2\5.4\msvc2010_opengl\mkspecs\modules\qt_lib_datavisualization.pri:
-C:\Qt\Qt5.4.2\5.4\msvc2010_opengl\mkspecs\modules\qt_lib_datavisualization_private.pri:
 C:\Qt\Qt5.4.2\5.4\msvc2010_opengl\mkspecs\modules\qt_lib_dbus.pri:
 C:\Qt\Qt5.4.2\5.4\msvc2010_opengl\mkspecs\modules\qt_lib_dbus_private.pri:
 C:\Qt\Qt5.4.2\5.4\msvc2010_opengl\mkspecs\modules\qt_lib_declarative.pri:
@@ -261,8 +251,6 @@ C:\Qt\Qt5.4.2\5.4\msvc2010_opengl\mkspecs\modules\qt_lib_positioning.pri:
 C:\Qt\Qt5.4.2\5.4\msvc2010_opengl\mkspecs\modules\qt_lib_positioning_private.pri:
 C:\Qt\Qt5.4.2\5.4\msvc2010_opengl\mkspecs\modules\qt_lib_printsupport.pri:
 C:\Qt\Qt5.4.2\5.4\msvc2010_opengl\mkspecs\modules\qt_lib_printsupport_private.pri:
-C:\Qt\Qt5.4.2\5.4\msvc2010_opengl\mkspecs\modules\qt_lib_purchasing.pri:
-C:\Qt\Qt5.4.2\5.4\msvc2010_opengl\mkspecs\modules\qt_lib_purchasing_private.pri:
 C:\Qt\Qt5.4.2\5.4\msvc2010_opengl\mkspecs\modules\qt_lib_qml.pri:
 C:\Qt\Qt5.4.2\5.4\msvc2010_opengl\mkspecs\modules\qt_lib_qml_private.pri:
 C:\Qt\Qt5.4.2\5.4\msvc2010_opengl\mkspecs\modules\qt_lib_qmldevtools_private.pri:

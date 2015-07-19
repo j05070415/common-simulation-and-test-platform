@@ -183,3 +183,35 @@ HwaString HwaPlatformConfigManager::getHomePageDescription() const
 
 	return "";
 }
+
+ProjectInfor HwaPlatformConfigManager::getProjectInfor(const HwaString& projectName)
+{
+	ProjectInfor infor;
+	TiXmlDocument doc(_p->_file.c_str());
+	if (doc.LoadFile())
+	{
+		TiXmlElement* root = doc.RootElement();
+		if (root != NULL)
+		{
+			TiXmlElement* child = root->FirstChildElement();
+			if (child != NULL)
+			{
+				do
+				{
+					std::string className = child->Attribute("class");
+					if (className == projectName)
+					{
+						infor.name = child->Attribute("name");
+						infor.className = className;
+						infor.icon = child->Attribute("icon");
+						infor.description = child->Attribute("desc");
+						infor;
+					}
+
+				} while (child = child->NextSiblingElement());
+			}
+		}
+	}
+
+	return infor;
+}

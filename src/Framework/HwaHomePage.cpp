@@ -3,8 +3,12 @@
 #include <QJsonObject>
 #include <QMetaType>
 #include <QString>
+#include <QDebug>
+
 
 #include "HwaCommonProject.h"
+#include "HwaPlatformConfigManager.h"
+#include "HwaCanProject.h"
 
 #include "HwaHomePage.h"
 
@@ -12,8 +16,12 @@
 HwaHomePage::HwaHomePage()
 	: QObject()
 	, _project(NULL)
+	, _homeRoot(NULL)
 {
+	REGISTER_META_TYPE(HwaCanProject);
 
+	HwaPlatformConfigManager& mgr = HwaPlatformConfigManager::getManager();
+	mgr.setFile("../config/framework-config.xml");
 }
 
 HwaHomePage::~HwaHomePage()
@@ -23,11 +31,19 @@ HwaHomePage::~HwaHomePage()
 
 void HwaHomePage::setUI(QObject* ui)
 {
-	connect(ui, SIGNAL(action(const QString&)), this, SLOT(onUICommand(const QString&)));
-	connect(this, SIGNAL(command(const QString&)), ui, SLOT(onCommand(const QString&)));
+	if (ui == NULL)
+	{
+		qDebug("ui is NULL");
+		return;
+	}
+	connect(ui, SIGNAL(action(const QString&, const QVariant&)), this, SLOT(onAction(const QString& command, const QVariant& param)));
+	connect(this, SIGNAL(command(const QString&, const QVariant&)), ui, SLOT(onCommand(const QString& command, const QVariant& param)));
+	qDebug("connect ui to home page");
+	qDebug("connect home page to ui");
+	_homeRoot = ui;
 }
 
-void HwaHomePage::onUICommand(const QString& command)
+void HwaHomePage::onAction(const QString& command, const QVariant& param)
 {
 	QJsonParseError error;
 	QJsonDocument json = QJsonDocument::fromJson(command.toLatin1(), &error);
@@ -35,10 +51,10 @@ void HwaHomePage::onUICommand(const QString& command)
 	{
 		QJsonObject jObj = json.object();
 		int type = jObj.value("type").toInt();
-		if (type == PLATFORM && jObj.contains("command") && jObj.contains("projectName"))
+		if (type == PLATFORM && jObj.contains("command") && jObj.contains("project"))
 		{
 			int comm = jObj.value("command").toInt();
-			QString projectName = jObj.value("projectNmae").toString();
+			QString projectName = jObj.value("project").toString();
 			switch (comm)
 			{
 			case NEW_PROJECT:
@@ -46,8 +62,15 @@ void HwaHomePage::onUICommand(const QString& command)
 					this->closeProject(_project);
 
 					_project = this->createProject(projectName);
-					connect(_project, SIGNAL(command(const QString&)), this, SIGNAL(command(const QString&)));
-					_project->newProject();
+
+					if (_project && _homeRoot)
+					{
+						QObject* projectNode = _homeRoot->findChild<QObject*>(projectName);
+						_project->setRoot(projectNode);
+						connect(_project, SIGNAL(command(const QString&)), this, SIGNAL(command(const QString&)));
+						qDebug("connect projet to home page");
+						_project->newProject();
+					}
 				}
 				break;
 			case OPEN_PROJECT:
@@ -71,7 +94,7 @@ void HwaHomePage::onUICommand(const QString& command)
 		}
 		else if (_project != NULL)
 		{
-			_project->onAction(command);
+			_project->onAction(command, param);
 		}
 	}
 }
@@ -91,8 +114,21 @@ void HwaHomePage::closeProject(HwaCommonProject* project)
 	}
 
 	disconnect(project, SIGNAL(command(const QString&)), this, 0);
+	qDebug("disconnect projet to home page");
 
 	_project->close();
 	delete _project;
 	_project = NULL;
+}
+
+void HomeUI::onChangeValue(const QString& infor, const QVariant& param)
+{
+	qDebug("view::updateView()");
+	qDebug() << infor;
+}
+
+void HomeUI::onCommand(const QString& command, const QVariant& param)
+{
+	qDebug("UI HomePage command");
+	qDebug() << command;
 }

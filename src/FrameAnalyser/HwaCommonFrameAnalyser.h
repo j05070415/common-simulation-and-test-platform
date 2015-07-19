@@ -24,12 +24,10 @@ public:
 
 	virtual SmartBitsets analyse(uchar* data, const QVector<int>& segments);
 	
-private:
-	void calculateOffset(FrameInfor& frameInfor, const uchar* data);
+protected:
+	virtual void calculateOffset(FrameInfor& frameInfor, const uchar* data);
+	inline SegmentInfor findSegment(const HwaSegments& segments, int id);
 	inline uchar* readValue(const uchar* data, int offset, int& size);
-
-private:
-	bool _calculated;
 };
 
 #endif //__HWACOMMONFRAMEANALYSER_H__

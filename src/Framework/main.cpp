@@ -1,7 +1,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
-#include <QDebug>
-
+#include <QQmlContext>
+#include <QQuickView>
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);

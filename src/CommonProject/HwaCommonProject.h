@@ -42,16 +42,17 @@ public:
 	*    \param const QString & action
 	*    \returns void
 	*/
-	virtual void onAction(const QString& action) = 0;
+	virtual void onAction(const QString& action, const QVariant& param) = 0;
 
 signals:
 	/**
 	*    \fn    command
 	*    \brief 对界面发送命令，命令格式为json.
 	*    \param const QString & command
+	*    \param const QVariant& param
 	*    \returns void
 	*/
-	void command(const QString&);
+	void command(const QString&, const QVariant&);
 
 protected:
 	QObject* _root;

@@ -11,7 +11,7 @@ struct CanTestData
 	uint c: 2;
 	uint d: 4;
 	uint e: 7;
-	uint f: 7;
+	uint f: 8;
 	char g[4];
 	int h;
 };
@@ -21,13 +21,21 @@ void TestAnalyser()
 	CanTestData* c = new CanTestData;
 	memset(c, 0, sizeof(CanTestData));
 	c->a = 1;
-	c->b = 100;//110 0100
-	c->c = 2;//10
-	c->d = 11;//1011
-	c->e = 127;//111 1111
-	c->f = 129;//1000 0000
-	c->h = -1;
+	c->b = 100;//1100 100 0x64
+	c->c = 2;//10 0x02
+	c->d = 11;//1011 0x0B
+	c->e = 127;//111 1111 0x7F
+	c->f = 121;//111 1001 0x79
+	c->h = 1;
 	memcpy(c->g, "Helo", 4);
+	printf("value=%u\n", c->a);
+	printf("value=%u\n", c->b);
+	printf("value=%u\n", c->c);
+	printf("value=%u\n", c->d);
+	printf("value=%u\n", c->e);
+	printf("value=%u\n", c->f);
+	printf("value=%s\n", c->g);
+	printf("value=%d\n", c->h);
 	HwaPlatformConfigManager& mgr = HwaPlatformConfigManager::getManager();
 	mgr.setFile("../config/framework-config.xml");
 	HwaFrameConfigManager& frameMgr = HwaFrameConfigManager::getManager();
@@ -46,7 +54,8 @@ void TestAnalyser()
 	SmartBitsets bitsets = analyseMgr.analyse(data, frameInfor.id.c_str(), segments);
 	foreach (SmartBitset bitset, bitsets)
 	{
-		printf("value=%lf\n", bitset->toDouble());
+		printf("value=%u\n", bitset->toULong());
 	}
+	printf("g=%s\n", bitsets[6]->toStdString().c_str());
 
 }

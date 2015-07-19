@@ -39,7 +39,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>..\ResourceManager;..\FrameAnalyser;$(IncludePath)</IncludePath>
+    <IncludePath>..\CommonProject;..\ResourceManager;..\FrameAnalyser;..\Framework;$(IncludePath)</IncludePath>
     <LibraryPath>..\bin;$(LibraryPath)</LibraryPath>
     <OutDir>..\bin\</OutDir>
   </PropertyGroup>
@@ -94,9 +94,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\ResourceManager\StringHelper.cpp" />
+    <ClCompile Include="CanDataGenerater.cpp" />
     <ClCompile Include="test.cpp" />
     <ClCompile Include="TestBitset.cpp" />
     <ClCompile Include="TestFrameAnalyser.cpp" />
+    <ClCompile Include="TestHomePage.cpp" />
     <ClCompile Include="TestResourceMgr.cpp" />
   </ItemGroup>
   <ItemGroup>

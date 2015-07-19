@@ -76,6 +76,8 @@ public:
 	*/
 	void setProjectName(const QString& name);
 
+
+
 public slots:
 	/**
 	*    \fn    onItemChanged
@@ -86,8 +88,33 @@ public slots:
 	*    \returns void
 	*/
 	virtual void onItemChanged(const QString& objName, const QVariant& param);
+	
+	/**
+	*    \fn    onAction
+	*    \brief 响应工程传下动作.
+	*    \param const QString & action
+	*    \param const QVariant & param
+	*    \returns void
+	*/
+	virtual void onAction(const QString& action, const QVariant& param);
 
 signals:
+	/**
+	*    \fn    command
+	*    \brief 给工程发送除数据其他命令，命令格式为json.
+	*    \param const QString & command
+	*    \param const QVariant& param
+	*    \returns void
+	*/
+	void command(const QString&, const QVariant&);
+	
+	/**
+	*    \fn    changeValue
+	*    \brief 向界面控件发送数据，参数一为json，有project、view、item.
+	*    \param const QString &
+	*    \param const QVariant &
+	*    \returns void
+	*/
 	void changeValue(const QString&, const QVariant&);
 
 protected:

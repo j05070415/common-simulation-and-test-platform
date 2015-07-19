@@ -192,6 +192,8 @@ std::vector<ViewInfor> HwaViewConfigManager::getViews(const HwaString& projectNa
 			infor.binder = projectChild->Attribute("binder");
 
 			views.push_back(infor);
+
+			projectChild = projectChild->NextSiblingElement();
 		}
 	}
 

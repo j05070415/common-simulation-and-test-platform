@@ -4,6 +4,7 @@
 #include <string>
 void TestResourceManager();
 void TestAnalyser();
+void GenerateData();
 
 class Data
 {
@@ -49,7 +50,7 @@ void TestBitSet();
 
 int main(int argc, char* argv[])
 {
-	TestResourceManager();
+	//TestResourceManager();
 	/*GOO g1;
 	g1.p.i = 1;
 	GOO g2;
@@ -105,6 +106,7 @@ int main(int argc, char* argv[])
 
 
 	//TestAnalyser();
+	GenerateData();
 	return 0;
 }
 

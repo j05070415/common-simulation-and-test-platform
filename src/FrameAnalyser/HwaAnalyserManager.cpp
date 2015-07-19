@@ -5,11 +5,13 @@
 #include "HwaFrameConfigManager.h"
 #include "HwaFrameAnalyser.h"
 #include "HwaCommonFrameAnalyser.h"
+#include "HwaCanDataFrameAnalyser.h"
 #include "HwaAnalyserManager.h"
 
 HwaAnalyserManager::HwaAnalyserManager()
 {
 	REGISTER_META_TYPE(HwaCommonFrameAnalyser);
+	REGISTER_META_TYPE(HwaCanDataFrameAnalyser);
 }
 
 HwaAnalyserManager::~HwaAnalyserManager()
@@ -17,12 +19,8 @@ HwaAnalyserManager::~HwaAnalyserManager()
 
 }
 
-static QMutex mutex;
-
 HwaAnalyserManager& HwaAnalyserManager::getManager()
 {
-	QMutexLocker lokcer(&mutex);
-
 	static HwaAnalyserManager mgr;
 
 	return mgr;

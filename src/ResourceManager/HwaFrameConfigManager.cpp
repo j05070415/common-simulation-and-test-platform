@@ -113,46 +113,31 @@ void HwaFrameConfigManager::loadSegment(FrameInfor& frame, TiXmlElement* child)
 			SegmentInfor segment;
 			const char* pValue = child->Attribute("id");
 			if (pValue)
-			{
 				segment.id = atoi(pValue);
-			}
 
 			pValue = child->Attribute("name");
 			if (pValue)
-			{
 				segment.name = pValue;
-			}
 
 			pValue = child->Attribute("size");
 			if (pValue)
-			{
 				segment.size = atoi(pValue);
-			}
 
 			pValue = child->Attribute("offset");
 			if (pValue)
-			{
 				segment.offset = atoi(pValue);
-			}
 
 			pValue = child->Attribute("ref");
 			if (pValue)
-			{
 				segment.reference = atoi(pValue);
-			}
 
 			pValue = child->Attribute("prev");
 			if (pValue)
-			{
 				segment.previous = atoi(pValue) != 0;
-			}
 
 			pValue = child->Attribute("desc");
 			if (pValue)
-			{
 				segment.description = pValue;
-			}
-
 
 			frame.segments.push_back(segment);
 		} while (child = child->NextSiblingElement());

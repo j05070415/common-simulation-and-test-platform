@@ -80,7 +80,7 @@ void HwaProjectView::onItemChanged(const QString& objName, const QVariant& param
 				.arg(source.id.c_str())
 				.arg(jObj.value("row").toInt())
 				.arg(jObj.value("count").toInt());
-			_binder->enqueue(command);
+			_binder->query(command);
 		}
 	}
 }
@@ -101,4 +101,9 @@ ItemInfor HwaProjectView::getItemInfor(const QString& objName) const
 	}
 
 	return ItemInfor();
+}
+
+void HwaProjectView::onAction( const QString& action, const QVariant& param )
+{
+	// ¥¶¿Ì ”Õº√¸¡Ó
 }

@@ -9,8 +9,9 @@
 #ifndef __HWABINDERDATASOURCE_H__
 #define __HWABINDERDATASOURCE_H__
 
-#include <QThread>
-#include <QString>
+#include <QMutex>
+#include <QWaitCondition>
+#include <QQueue>
 
 #include "commonproject_global.h"
 #include "HwaDataSource.h"
@@ -29,20 +30,47 @@ public:
 	HwaBinderDataSource(HwaViewBinder* binder, DataStorage* source);
 	~HwaBinderDataSource();
 
+	/**
+	*    \fn    enqueue
+	*    \brief 检查信息有效性，并加入队列.
+	*    \param const QString & infor
+	*    \returns void
+	*/
 	virtual void enqueue(const QString& infor);
+	
+	/**
+	*    \fn    query
+	*    \brief 按照信息查询数据，将数据传给绑定器.
+	*    \param const QString & infor
+	*    \returns void
+	*/
 	virtual void query(const QString& infor);
 
-	//挑拣上报信息，回调负责处理实际挑拣处理
+	/**
+	*    \fn    processReportInfor
+	*    \brief 挑拣上报信息，回调负责处理实际挑拣处理.
+	*    \param const QString & infor
+	*    \returns void
+	*/
 	virtual void processReportInfor(const QString& infor);
 
+	void abort();
+	void wakeOne();
 protected:
 	virtual void run();
+
+private:
+	bool checkInfor(const QString& infor);
 
 private:
 	HwaViewBinder* _binder;
 	DataStorage* _source;
 
-	QList<QString> _queue;
+	QQueue<QString> _queue;
+
+	//线程中断，恢复
+	QMutex _mutex;
+	QWaitCondition _condition;
 };
 
 #endif //__HWADATASTORAGE_H__

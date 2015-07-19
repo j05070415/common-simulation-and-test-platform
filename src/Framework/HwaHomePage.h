@@ -10,6 +10,7 @@
 #define __HWAHOMEPAGE_H__
 
 #include <QString>
+#include <QVariant>
 #include <QObject>
 
 class HwaCommonProject;
@@ -47,10 +48,10 @@ public:
 	void setUI(QObject* ui);
 
 public slots:
-	void onUICommand(const QString& command);
+	void onAction(const QString& command, const QVariant& param);
 
 signals:
-	void command(const QString&);
+	void command(const QString&, const QVariant&);
 
 private:
 	HwaCommonProject* createProject(const QString& name);
@@ -58,6 +59,49 @@ private:
 
 private:
 	HwaCommonProject* _project;
+	QObject* _homeRoot;
+};
+
+class HomeUI : public QObject
+{
+	Q_OBJECT
+signals:
+	/**
+	*    \fn    query
+	*    \brief 与View通信.
+	*    \param const QString &
+	*    \param const QVariant &
+	*    \returns void
+	*/
+	void query(const QString&, const QVariant&);
+	
+	/**
+	*    \fn    action
+	*    \brief 连接对象HomePage.
+	*    \param const QString &
+	*    \param const QVariant &
+	*    \returns void
+	*/
+	void action(const QString&, const QVariant&);
+
+public slots:
+	/**
+	*    \fn    onChangeValue
+	*    \brief 响应View数据更新.
+	*    \param const QString & infor
+	*    \param const QVariant & param
+	*    \returns void
+	*/
+	void onChangeValue(const QString& infor, const QVariant& param);
+	
+	/**
+	*    \fn    onCommand
+	*    \brief 响应HomePage命令.
+	*    \param const QString & command
+	*    \param const QVariant & param
+	*    \returns void
+	*/
+	void onCommand(const QString& command, const QVariant& param);
 };
 
 #endif //__HWAHOMEPAGE_H__
