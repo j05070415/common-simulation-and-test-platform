@@ -76,7 +76,10 @@ Window {
 //        }
         CanProject {
             id: canProject
-            
+            anchors.top: topTitle.bottom
+            anchors.margins: 0
+            Layout.fillHeight: true
+            Layout.fillWidth: true
         }
     }
 }

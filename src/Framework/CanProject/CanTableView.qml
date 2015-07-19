@@ -7,22 +7,74 @@ Rectangle {
     height: parent.height
     color: "white"
     state: "hide"
-    property alias row: tableView.rowCount
-    property alias col: tableView.columnCount
 
     TableView {
         id: tableView
+        anchors.fill: parent
         horizontalScrollBarPolicy: 0
         objectName: "TableView"
         headerVisible: true
+//        itemDelegate: itemDelegate
+//        headerDelegate: headerDelegate
+        property int cursor: 0
 
-        function updateView(string data)
+        function updateView(infor, data)
         {
-            var d = data
-            count = d.size()
-            root.row = count / columnCount
+            var jsonObj = eval(infor)
+            var row = Number(jsonObj.row)
+            var count = (jsonObj.count)
+            var column = count/row
+            tableView.cursor += row
+            var header = jsonObj.header.split(",")
+//            for (var i=0; i<header.size; ++i)
+//            {
+//            V}
+            tableView.addColumn(authorColumn)
         }
-    }
+
+        TableViewColumn {
+            id: authorColumn
+            delegate: listDelegate
+            title: "Author"
+            role: "author"
+            movable: false
+            resizable: false
+            width: tableView.viewport.width / 3
+        }
+
+        Component {
+            id:columnComponent
+            Text {
+                    text: name;
+                    font.pixelSize: 24
+                }
+        }
+
+        ListModel {
+            id: listDelegate
+            ListElement { name:"Author" }
+            ListElement { name:"name" }
+        }
+
+
+//        Component {
+//            id: headerDelegate
+//            Text {
+//                anchors.fill: parent
+//                text: styleData.value
+//                //effectiveHorizontalAlignment: Text.AlignHCenter
+//            }
+//        }
+//        Component {
+//            id: itemDelegate
+//            Text {
+//                anchors.fill: parent
+//                color: styleData.textColor
+//                elide: styleData.elideMode
+//                text: sytleData.value
+//            }
+//        }
+     }
 
     states:
     [
@@ -31,7 +83,7 @@ Rectangle {
             name:"active"
             PropertyChanges
             {
-                target: widget
+                target: root
                 x:parent.x
             }
 
@@ -41,7 +93,7 @@ Rectangle {
             name:"hide"
             PropertyChanges
             {
-                target: widget
+                target: root
                 x:parent.x - width
             }
         }

@@ -2,9 +2,7 @@
 
  Rectangle
  {
-     id:content
-     width: 500
-     height: 500
+     id:contentd
      color:"white"
 
      property int current: 0

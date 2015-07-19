@@ -95,7 +95,7 @@ Rectangle {
                 index:0
                 state:"checked"
                 picSrc: "Image/ico_Examine.png"
-                btnText:"Can数据视图"
+                btnText:"数据视图"
                 onClicked:toolbar.current=0
             }
 //            ToolBtn
