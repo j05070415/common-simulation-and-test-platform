@@ -17,44 +17,48 @@ Rectangle {
 //        itemDelegate: itemDelegate
 //        headerDelegate: headerDelegate
         property int cursor: 0
+        signal itemChanged(string name, var params)
 
+        //item,row,column,count,header
         function updateView(infor, data)
         {
+            console.log(infor)
             var jsonObj = eval(infor)
             var row = Number(jsonObj.row)
+            var column = Number(jsonObj.column)
             var count = (jsonObj.count)
-            var column = count/row
             tableView.cursor += row
             var header = jsonObj.header.split(",")
-//            for (var i=0; i<header.size; ++i)
-//            {
-//            V}
-            tableView.addColumn(authorColumn)
+            for (var i=0; i<header.size; ++i)
+            {
+                tableView.addColumn(Qt.createComponent('import QtQuick 2.0; Text { text:"Item"}'))
+                console.log(i)
+            }
         }
 
-        TableViewColumn {
-            id: authorColumn
-            delegate: listDelegate
-            title: "Author"
-            role: "author"
-            movable: false
-            resizable: false
-            width: tableView.viewport.width / 3
-        }
+//        TableViewColumn {
+//            id: authorColumn
+//            delegate: listDelegate
+//            title: "Author"
+//            role: "author"
+//            movable: false
+//            resizable: false
+//            width: tableView.viewport.width / 3
+//        }
 
-        Component {
-            id:columnComponent
-            Text {
-                    text: name;
-                    font.pixelSize: 24
-                }
-        }
+//        Component {
+//            id:columnComponent
+//            Text {
+//                    text: name;
+//                    font.pixelSize: 24
+//                }
+//        }
 
-        ListModel {
-            id: listDelegate
-            ListElement { name:"Author" }
-            ListElement { name:"name" }
-        }
+//        ListModel {
+//            id: listDelegate
+//            ListElement { name:"Author" }
+//            ListElement { name:"name" }
+//        }
 
 
 //        Component {

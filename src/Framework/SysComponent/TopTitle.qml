@@ -64,6 +64,25 @@ Rectangle {
             source: "Image/logo.png"
         }
 
+        SysBtnGroup
+        {
+            id: sysbtngrp
+            layoutDirection: Qt.LeftToRight
+            anchors.top: parent.top
+            anchors.right: parent.right
+
+            onMin: window.showMinimized()
+            onClose: window.close()
+            onMax: {
+                console.log("max");
+                MaxRestore.max_function()
+            }
+            onRestore: {
+                console.log("restore");
+                MaxRestore.restore_function()
+            }
+        }
+
         Row
         {
             id: toolbar
@@ -97,74 +116,6 @@ Rectangle {
                 picSrc: "Image/ico_Examine.png"
                 btnText:"数据视图"
                 onClicked:toolbar.current=0
-            }
-//            ToolBtn
-//            {
-//                index:1
-//                picSrc: "Image/ico_dsmain.png"
-//                btnText:"木马查杀"
-//                onClicked:toolbar.current=1
-//            }
-//            ToolBtn
-//            {
-//                index:2
-//                picSrc: "Image/ico_SysRepair.png"
-//                btnText:"系统修复"
-//                onClicked:toolbar.current=2
-//            }
-//            ToolBtn
-//            {
-//                index:3
-//                picSrc: "Image/ico_TraceCleaner.png"
-//                btnText:"电脑清理"
-//                onClicked:toolbar.current=3
-//            }
-//            ToolBtn
-//            {
-//                index:4
-//                picSrc: "Image/ico_SpeedupOpt.png"
-//                btnText:"优化加速"
-//                onClicked:toolbar.current=4
-//            }
-//            ToolBtn
-//            {
-//                index:5
-//                picSrc: "Image/ico_expert.png"
-//                btnText:"电脑专家"
-//                onClicked:toolbar.current=5
-//            }
-//            ToolBtn
-//            {
-//                index:6
-//                picSrc: "Image/ico_diannaomenzhen.png"
-//                btnText:"电脑门诊"
-//                onClicked:toolbar.current=6
-//            }
-//            ToolBtn
-//            {
-//                index:7
-//                picSrc: "Image/ico_softmgr.png"
-//                btnText:"软件管家"
-//                onClicked:toolbar.current=7
-//            }
-        }
-
-        SysBtnGroup
-        {
-            id: sysbtngrp
-            layoutDirection: Qt.LeftToRight
-            anchors.top: parent.top
-            anchors.right: parent.right
-
-            onMin: window.showMinimized()
-            onClose: window.close()
-            onMax: {
-                console.log("max");
-                MaxRestore.max_function()
-            }
-            onRestore: {
-                console.log("restore");
-                MaxRestore.restore_function()
             }
         }
     }

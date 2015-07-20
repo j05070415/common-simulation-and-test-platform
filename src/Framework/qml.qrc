@@ -14,7 +14,8 @@
         <file>CanProject/CanDataView.qml</file>
         <file>CanProject/CanProject.qml</file>
         <file>CanProject/CanStaticsView.qml</file>
-        <file>CanProject/HomePage.qml</file>
         <file>CanProject/CanTableView.qml</file>
+        <file>SysComponent/HomePage.qml</file>
+        <file>SysComponent/RectLabel.qml</file>
     </qresource>
 </RCC>
