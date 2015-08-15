@@ -17,9 +17,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CanProject", "CanProject\Ca
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CommonProject", "CommonProject\CommonProject.vcxproj", "{6005360A-3482-486E-B4AC-371CC9564B7C}"
-	ProjectSection(ProjectDependencies) = postProject
-		{0C0299E9-BC18-326E-9200-328AE3587B5C} = {0C0299E9-BC18-326E-9200-328AE3587B5C}
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
