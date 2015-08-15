@@ -4,26 +4,36 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QPair>
+#include <QMutexLocker>
 
-#include "HwaDataSource.h"
 #include "HwaAnalyserManager.h"
 #include "HwaProjectView.h"
+#include "HwaDataStorage.h"
 #include "HwaViewBinder.h"
 
-Q_DECLARE_METATYPE(SmartBitsets);
 HwaViewBinder::HwaViewBinder()
-	: QThread(NULL)
+	: _stoped(true)
 {
+	//TODO: 暂时模拟数据源
+	_source.reset(new HwaDataStorage(NULL));
+	_source->addObserver(this);
+	_source->start();
 }
 
 HwaViewBinder::HwaViewBinder(const HwaViewBinder& binder)
 {
 	_views = binder._views;
-	_cache = binder._cache;
+	_source.reset(new HwaDataStorage(NULL));
+	_source->addObserver(this);
+	_source->start();
 }
 
 HwaViewBinder::~HwaViewBinder()
 {
+	_source.reset();
+	this->_stoped = true;
+	WAIT_THREAD_FINISHED
+
 	this->reset();
 }
 
@@ -45,90 +55,71 @@ void HwaViewBinder::bind(HwaProjectView* view)
 
 void HwaViewBinder::reset()
 {
-	//stop thread
-	this->quit();
-
-	QQueue<QPair<QString, uchar*> >::iterator iter = _cache.begin();
-	for (; iter != _cache.end(); ++iter)
-	{
-		delete[] (*iter).second;
-	}
 	_cache.clear();
 	_views.clear();
 }
 
-void HwaViewBinder::enqueue(const QString& infor, uchar* data)
+void HwaViewBinder::query(const QJsonObject& infor)
 {
-	//插入队列
-	if (_cache.count() > MAX_CACHE)
-	{
-		qDebug("HwaViewBinder queue full!");
-		_cache.dequeue();
-	}
-
-	_cache.enqueue(QPair<QString, uchar*>(infor, data));
-	//开启线程
-	if (!this->isRunning())
-	{
-		this->wakeOne();
-	}
-}
-
-void HwaViewBinder::query(QString& command)
-{
-	//{view:"CanDataViewer", item:"label1", path:"ArincSimulation/CAN/port1", id="00000011111", row=0, count=1000}
-	_source->enqueue(command);
+	//{view:"CanDataViewer", objectName:"label1", path:"ArincSimulation/CAN/port1", id="00000011111", row=0, count=1000}
+	_source->enqueue(infor);
 }
 
 void HwaViewBinder::run()
 {
+	qDebug("binder started!");
+	_stoped = false;
 	//取队列
-	while (true)
+	while (!_stoped)
 	{
-		QPair<QString, uchar*> source = _cache.dequeue();
-
-		//按照实际信息查询数据
-		QSharedPointer<uchar> data(source.second);
-
-		//解析数据
-		HwaAnalyserManager& mgr = HwaAnalyserManager::getManager();
-		QJsonParseError jsonError;
-		QJsonDocument json = QJsonDocument::fromJson(source.first.toLatin1(), &jsonError);
-		if (jsonError.error != QJsonParseError::NoError)
+		if (!_cache.isEmpty())
 		{
-			qDebug("json error in binder thread!");
-			continue;
+			QMutexLocker locker(&_mutex);
+			QPair<QJsonObject, QSharedPointer<uchar> > source = _cache.dequeue();
+			locker.unlock();
+
+			//按照实际信息查询数据
+			QSharedPointer<uchar> data = source.second;
+
+			//解析数据
+			HwaAnalyserManager& mgr = HwaAnalyserManager::getManager();
+			QJsonObject jObj = source.first;
+			HwaProjectView* view = this->findView(jObj.value("view").toString());
+			if (view == NULL) continue;
+
+			QString itemName = jObj.value("item").toString();
+
+			std::vector<SourceInfor>& sources = view->getItemInfor(itemName).sources;
+			SmartBitsets bitsets;
+			foreach (const SourceInfor& source, sources)
+			{
+				bitsets += mgr.analyse(data.data(), jObj.value("id").toString(), QVector<int>::fromStdVector(source.segments));
+			}
+
+			//更新视图
+			if (bitsets.size() > 0)
+			{
+				QList<QString> resData;
+				foreach (SmartBitset bitset, bitsets)
+				{
+					resData.push_back(QString::number(bitset->toULong()));
+				}
+				view->updateView(itemName, QVariant::fromValue(resData));
+			}
 		}
-		QJsonObject jObj = json.object();
-		HwaProjectView* view = this->findView(jObj.value("view").toString());
-		QString itemName = jObj.value("item").toString();
-
-		std::vector<SourceInfor>& sources = view->getItemInfor(itemName).sources;
-		SmartBitsets bitsets;
-		foreach (const SourceInfor& source, sources)
+		else
 		{
-			bitsets += mgr.analyse(data.data(), jObj.value("id").toString(), QVector<int>::fromStdVector(source.segments));
-		}
-		
-		//更新视图
-		view->updateView(itemName, QVariant::fromValue(bitsets));
-		//emit changeValue(itemName, QVariant::fromValue(bitsets));
-
-		if (_cache.isEmpty())
-		{
-			this->abort();
+			msleep(1);
 		}
 	}
+
+	qDebug("binder exited!");
 }
 
-QVector<QString> HwaViewBinder::processReportInfor(const QString& infor)
+QVector<QJsonObject> HwaViewBinder::processReportInfor(const QJsonObject& jObj)
 {
-	QJsonDocument json = QJsonDocument::fromJson(infor.toLatin1());
-	QJsonObject jObj = json.object();
 	QString path = jObj.value("path").toString();
-	QVector<QString> filteredInfors;
-	//TODO：有性能问题此处可优化，目标：队列中只留一个Path数据查询
-	QHash<uint, char> filter;
+	QVector<QJsonObject> filteredInfors;
 	foreach (HwaProjectView* view, _views)
 	{
 		ItemsInfor& infors = view->getItemsInfor();
@@ -136,11 +127,14 @@ QVector<QString> HwaViewBinder::processReportInfor(const QString& infor)
 		{
 			foreach (const SourceInfor& source, item.sources)
 			{
-				uint h = qHash(infor);
-				if (!filter.contains(h) && source.path == path.toStdString())
+				//相同通道数据
+				if (source.path == path.toStdString())
 				{
+					QJsonObject infor = jObj;
+					infor["item"] = item.objName.c_str();
+					infor["view"] = view->name();
+					infor["id"] = source.id.c_str();
 					filteredInfors.push_back(infor);
-					filter[h] = '\0';
 				}
 			}
 		}
@@ -164,16 +158,23 @@ HwaProjectView* HwaViewBinder::findView(const QString& viewName)
 	return res;
 }
 
-void HwaViewBinder::abort()
+void HwaViewBinder::notify(const QJsonObject& infor, uchar* data)
 {
-	_mutex.lock();
-	_condition.wait(&_mutex);
-	_mutex.unlock();
-}
+	if (!infor.contains("length"))
+	{
+		return;
+	}
 
-void HwaViewBinder::wakeOne()
-{
-	_mutex.lock();
-	_condition.wakeOne();
-	_mutex.unlock();
+	int length = infor["length"].toInt();
+	uchar* buffer = new uchar[length];
+	memcpy(buffer, data, length);
+	//插入队列
+	QMutexLocker locker(&_mutex);
+	if (_cache.count() > MAX_CACHE)
+	{
+		qDebug("HwaViewBinder queue full!");
+		_cache.dequeue();
+	}
+
+	_cache.enqueue(QPair<QJsonObject, QSharedPointer<uchar> >(infor, QSharedPointer<uchar>(buffer)));
 }

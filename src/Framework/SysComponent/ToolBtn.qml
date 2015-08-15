@@ -9,7 +9,7 @@ import QtQuick 2.2
      property alias picSrc: pic.source
      property alias btnText: label.text
      property int index:0
-     signal clicked(int btnIndex)
+     signal clicked(int index)
      property color bkColor: "#00FFFFFF"
 
      Gradient
@@ -22,6 +22,8 @@ import QtQuick 2.2
      Image
      {
          id:pic
+         sourceSize.width: parent.width - 15
+         sourceSize.height: parent.height - 15
          anchors.topMargin: 5
          anchors.horizontalCenter: parent.horizontalCenter
      }

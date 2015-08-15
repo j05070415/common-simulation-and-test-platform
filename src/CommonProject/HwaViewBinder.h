@@ -15,10 +15,10 @@
 #include <QVector>
 #include <QVariant>
 #include <QQueue>
-#include <QWaitCondition>
 #include <QMutex>
+#include <QSharedPointer>
 
-#include "commonproject_global.h"
+#include "HwaDataSourceObserver.h"
 
 class HwaProjectView;
 class HwaDataSource;
@@ -26,18 +26,18 @@ class HwaDataSource;
 /**
 *	\class HwaViewBinder
 *	\breif 视图绑定器，如与数据视图绑定、与统计视图绑定，
-*			功能：通过遍历视图配置，将绑定信息显示到视图中.
+*			功能：通过遍历视图配置，将绑定信息显示到视图中；与特定数据源绑定，多个绑定器可以共享一个数据源.
 *	Details
 */
-class COMMONPROJECT_EXPORT HwaViewBinder : public QThread
+class COMMONPROJECT_EXPORT HwaViewBinder : public HwaDataSourceObserver
 {
 	Q_OBJECT
 public:
 	HwaViewBinder();
 	~HwaViewBinder();
-	HwaViewBinder(const HwaViewBinder& binder);
 
 	virtual QString name() const;
+	HwaViewBinder(const HwaViewBinder& binder);
 	void bind(HwaProjectView* view);
 	
 	/**
@@ -53,15 +53,7 @@ public:
 	*    \param QString & command
 	*    \returns uchar*
 	*/
-	void query(QString& command);
-
-	/**
-	*    \fn    enqueue
-	*    \brief 将数据查询信息添加到队列中.
-	*    \param const QString & infors
-	*    \returns void
-	*/
-	void enqueue(const QString& infor, uchar* data);
+	void query(const QJsonObject& infor);
 	
 	/**
 	*    \fn    processReportInfor
@@ -69,7 +61,9 @@ public:
 	*    \param const QString & infor
 	*    \returns void
 	*/
-	virtual QVector<QString> processReportInfor(const QString& infor);
+	virtual QVector<QJsonObject> processReportInfor(const QJsonObject& infor);
+
+	virtual void notify(const QJsonObject& infor, uchar* data);
 
 protected:
 	virtual void run();
@@ -83,21 +77,17 @@ private:
 	*/
 	HwaProjectView* findView(const QString& viewName);
 
-	void abort();
-	void wakeOne();
-
 protected:
 	QVector<HwaProjectView*> _views;
-	//TODO:将server数据变化信号与view 数据变化信号相连
-	HwaDataSource* _source;
+	//数据源
+	QSharedPointer<HwaDataSource> _source;
+	bool _stoped;
 
-	static const int MAX_CACHE = 20;
+	static const int MAX_CACHE = 1000;
 	// card/path/row/count
-	QQueue<QPair<QString, uchar*> > _cache;
+	QQueue<QPair<QJsonObject, QSharedPointer<uchar> > > _cache;
 
-	//线程中断，恢复
 	QMutex _mutex;
-	QWaitCondition _condition;
 };
 
 #endif //__HWAVIEWBINDER_H__

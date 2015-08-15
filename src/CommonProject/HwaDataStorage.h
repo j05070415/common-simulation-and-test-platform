@@ -10,8 +10,8 @@
 #define __HWABINDERDATASOURCE_H__
 
 #include <QMutex>
-#include <QWaitCondition>
 #include <QQueue>
+#include <QVector>
 
 #include "commonproject_global.h"
 #include "HwaDataSource.h"
@@ -24,11 +24,11 @@ class HwaViewBinder;
 *	\breif 负责出软件的数据源，如本地文件、数据服务端、网络等.
 *	Details
 */
-class COMMONPROJECT_EXPORT HwaBinderDataSource: public HwaDataSource
+class COMMONPROJECT_EXPORT HwaDataStorage: public HwaDataSource
 {
 public:
-	HwaBinderDataSource(HwaViewBinder* binder, DataStorage* source);
-	~HwaBinderDataSource();
+	HwaDataStorage(DataStorage* source);
+	~HwaDataStorage();
 
 	/**
 	*    \fn    enqueue
@@ -36,7 +36,7 @@ public:
 	*    \param const QString & infor
 	*    \returns void
 	*/
-	virtual void enqueue(const QString& infor);
+	virtual void enqueue(const QJsonObject& infor);
 	
 	/**
 	*    \fn    query
@@ -44,7 +44,7 @@ public:
 	*    \param const QString & infor
 	*    \returns void
 	*/
-	virtual void query(const QString& infor);
+	virtual void query(const QJsonObject& infor);
 
 	/**
 	*    \fn    processReportInfor
@@ -52,25 +52,23 @@ public:
 	*    \param const QString & infor
 	*    \returns void
 	*/
-	virtual void processReportInfor(const QString& infor);
+	virtual void processReportInfor(const QJsonObject& infor);
+	virtual void addObserver(HwaDataSourceObserver* observer);
 
-	void abort();
-	void wakeOne();
 protected:
 	virtual void run();
 
 private:
-	bool checkInfor(const QString& infor);
+	bool checkInfor(const QJsonObject& infor);
 
 private:
-	HwaViewBinder* _binder;
+	QVector<HwaDataSourceObserver*> _observers;
 	DataStorage* _source;
+	bool _stoped;
 
-	QQueue<QString> _queue;
+	QQueue<QJsonObject> _queue;
 
-	//线程中断，恢复
 	QMutex _mutex;
-	QWaitCondition _condition;
 };
 
 #endif //__HWADATASTORAGE_H__

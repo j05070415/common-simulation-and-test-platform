@@ -36,65 +36,56 @@ void HwaHomePage::setUI(QObject* ui)
 		qDebug("ui is NULL");
 		return;
 	}
-	connect(ui, SIGNAL(action(const QString&, const QVariant&)), this, SLOT(onAction(const QString& command, const QVariant& param)));
-	connect(this, SIGNAL(command(const QString&, const QVariant&)), ui, SLOT(onCommand(const QString& command, const QVariant& param)));
+
+	QObject* homePage = ui->findChild<QObject*>("homepage");
+	connect(homePage, SIGNAL(action(const QString&, const QVariant&)), this, SLOT(onAction(const QString&, const QVariant&)));
+	connect(this, SIGNAL(command(QVariant, QVariant)), homePage, SLOT(onCommand(QVariant, QVariant)));
 	qDebug("connect ui to home page");
 	qDebug("connect home page to ui");
 	_homeRoot = ui;
 }
 
-void HwaHomePage::onAction(const QString& command, const QVariant& param)
+void HwaHomePage::onAction(const QString& action, const QVariant& param)
 {
+	qDebug("HwaHomePage::onAction");
 	QJsonParseError error;
-	QJsonDocument json = QJsonDocument::fromJson(command.toLatin1(), &error);
+	QJsonDocument json = QJsonDocument::fromJson(action.toLatin1(), &error);
 	if (error.error == QJsonParseError::NoError)
 	{
 		QJsonObject jObj = json.object();
-		int type = jObj.value("type").toInt();
-		if (type == PLATFORM && jObj.contains("command") && jObj.contains("project"))
+		if (jObj.contains("action"))
 		{
-			int comm = jObj.value("command").toInt();
-			QString projectName = jObj.value("project").toString();
-			switch (comm)
+			int action = jObj.value("action").toInt();
+			HwaPlatformConfigManager& mgr = HwaPlatformConfigManager::getManager();
+			switch (action)
 			{
 			case NEW_PROJECT:
 				{
 					this->closeProject(_project);
 
+					QString projectName = jObj.value("projectName").toString();
 					_project = this->createProject(projectName);
 
 					if (_project && _homeRoot)
 					{
-						QObject* projectNode = _homeRoot->findChild<QObject*>(projectName);
-						_project->setRoot(projectNode);
-						connect(_project, SIGNAL(command(const QString&)), this, SIGNAL(command(const QString&)));
-						qDebug("connect projet to home page");
+						//大小为2不正常
+						qDebug() << "-->size=" << _homeRoot->findChildren<QObject*>(projectName).size();
+						QObject* qmlProject = _homeRoot->findChild<QObject*>(projectName);
+						_project->setRoot(qmlProject);
 						_project->newProject();
 					}
 				}
 				break;
-			case OPEN_PROJECT:
+			case CLICK_NEW_PROJECT:
+				std::vector<ProjectInfor> projIfnors = mgr.getProjectsInfor();
+				foreach (const ProjectInfor& infor, projIfnors)
 				{
-					if (_project != NULL)
-					{
-						_project->open(jObj.value("path").toString());
-					}
+					//action New clicked
+					emit command(QString("{\"projectName\":\"%1\",\"objectName\":\"%2\",\"picture\":\"%3\",\"text\":\"%4\",\"action\":\"%5\"}")
+						.arg(infor.className.c_str(), jObj.value("objectName").toString()
+						, infor.icon.c_str(), infor.description.c_str(), QString::number(CLICK_NEW_PROJECT)), "");
 				}
-				break;
-			case SAVE_PROJECT:
-				if (_project != NULL)
-				{
-					_project->open(jObj.value("path").toString());
-				}
-				break;
-			case CLOSE_PROJECT:
-				this->closeProject(_project);
-				break;
 			}
-		}
-		else if (_project != NULL)
-		{
-			_project->onAction(command, param);
 		}
 	}
 }
@@ -113,8 +104,11 @@ void HwaHomePage::closeProject(HwaCommonProject* project)
 		return;
 	}
 
-	disconnect(project, SIGNAL(command(const QString&)), this, 0);
-	qDebug("disconnect projet to home page");
+	//安全考虑重命名
+	QObject* qmlProject = _homeRoot->findChild<QObject*>(_project->name());
+	qmlProject->setObjectName("__TEMP_TO_DESTROIED__");
+
+	emit command("{\"action\":3}", "");
 
 	_project->close();
 	delete _project;

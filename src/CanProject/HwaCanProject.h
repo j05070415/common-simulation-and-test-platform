@@ -31,7 +31,7 @@ public:
 	~HwaCanProject();
 	HwaCanProject(const HwaCanProject& copy);
 
-	virtual QString name();
+	virtual QString name() const;
 	virtual bool newProject();
 	virtual bool open(const QString& path);
 	virtual bool save(const QString& path);

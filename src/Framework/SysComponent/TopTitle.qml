@@ -7,25 +7,28 @@ Rectangle {
     height: 110
     signal headerClicked(int index)
 
-    Image {
+    function show(maxed)
+    {
+        sysbtngrp.maxed = maxed
+    }
+
+    Rectangle {
         id: skinpic
         anchors.fill: parent
-        x: 0
-        y: 0
-        fillMode: Image.TileHorizontally
-        source: "Image/background_mainwnd.jpg"
+        color: "#3C3C3C"
+        //fillMode: Image.TileHorizontally
+        //source: "Image/background_mainwnd.jpg"
 
         Text {
             id: title
             anchors.top: parent.top
             anchors.left: parent.left
-            width: 125
-            height: 12
-            color: "#ffffff"
-            text: qsTr("仿真测试平台")
             anchors.leftMargin: 3
             anchors.topMargin: 3
-            font.pointSize: 9
+            width: 125
+            height: 12
+            color: "#FFFFFF"
+            text: qsTr("仿真测试平台")
             font.family: "微软雅黑"
             font.pixelSize: 12
         }
@@ -54,15 +57,15 @@ Rectangle {
             }
         }
 
-        Image
-        {
-            id: logo
-            anchors.rightMargin: 3
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 3
-            anchors.right: parent.right
-            source: "Image/logo.png"
-        }
+//        Image
+//        {
+//            id: logo
+//            anchors.rightMargin: 3
+//            anchors.bottom: parent.bottom
+//            anchors.bottomMargin: 3
+//            anchors.right: parent.right
+//            source: "Image/logo.png"
+//        }
 
         SysBtnGroup
         {
@@ -90,14 +93,12 @@ Rectangle {
             anchors.left: parent.left
             anchors.leftMargin: 10
             anchors.bottom: parent.bottom
-            property int current: 0
-            onCurrentChanged:setCurrentToolBtn()
 
-            function setCurrentToolBtn()
+            function setCurrentToolBtn(index)
             {
                 for(var i = 0; i < toolbar.children.length; i++)
                 {
-                    if (toolbar.current == i)
+                    if (index == i)
                     {
                         toolbar.children[i].state = 'checked'
                         root.headerClicked(i)
@@ -112,10 +113,24 @@ Rectangle {
             ToolBtn
             {
                 index:0
+                state:"leave"
+                picSrc: "Image/White/A02.png"
+                btnText:"主界面"
+
+                onClicked: {
+                    toolbar.setCurrentToolBtn(index)
+                }
+            }
+
+            ToolBtn
+            {
+                index:1
                 state:"checked"
-                picSrc: "Image/ico_Examine.png"
+                picSrc: "Image/White/A06.png"
                 btnText:"数据视图"
-                onClicked:toolbar.current=0
+                onClicked: {
+                    toolbar.setCurrentToolBtn(index)
+                }
             }
         }
     }

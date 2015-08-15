@@ -13,5 +13,7 @@
 #include "typedefs.h"
 
 typedef QVector<ItemInfor> ItemsInfor;
+#define WAIT_THREAD_FINISHED \
+	while (true) { if (this->isFinished()) break; else msleep(1); }
 
 #endif // COMMONPROJECT_GLOBAL_H

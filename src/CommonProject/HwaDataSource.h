@@ -11,9 +11,11 @@
 
 #include <QThread>
 #include <QString>
+#include <QJsonObject>
 
 #include "commonproject_global.h"
 
+class HwaDataSourceObserver;
 /**
 *	\class HwaDataSource
 *	\breif 负责接软件的数据源，如本地文件、数据服务端、网络等.
@@ -28,7 +30,7 @@ public:
 	*    \param const QString & infor
 	*    \returns void
 	*/
-	virtual void enqueue(const QString& infor) = 0;
+	virtual void enqueue(const QJsonObject& infor) = 0;
 	
 	/**
 	*    \fn    query
@@ -36,7 +38,7 @@ public:
 	*    \param const QString & infor
 	*    \returns void
 	*/
-	virtual void query(const QString& infor) = 0;
+	virtual void query(const QJsonObject& infor) = 0;
 	
 	/**
 	*    \fn    processReportInfor
@@ -44,7 +46,9 @@ public:
 	*    \param const QString & infor
 	*    \returns void
 	*/
-	virtual void processReportInfor(const QString& infor) = 0;
+	virtual void processReportInfor(const QJsonObject& infor) = 0;
+
+	virtual void addObserver(HwaDataSourceObserver* observer) = 0;
 };
 
 #endif //__HWADATASOURCE_H__

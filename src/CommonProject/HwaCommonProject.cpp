@@ -12,7 +12,7 @@ HwaCommonProject::~HwaCommonProject()
 
 }
 
-QString HwaCommonProject::name()
+QString HwaCommonProject::name() const
 {
 	return "HwaCommonProject";
 }

@@ -23,7 +23,7 @@ HwaCanProject::~HwaCanProject()
 	this->clear();
 }
 
-QString HwaCanProject::name()
+QString HwaCanProject::name() const
 {
 	return "HwaCanProject";
 }
@@ -34,30 +34,31 @@ bool HwaCanProject::newProject()
 	std::vector<ViewInfor> views = mgr.getViews(this->name().toStdString());
 	foreach (ViewInfor infor, views)
 	{
-		HwaProjectView* view = (HwaProjectView*)(QMetaType::type(QString(infor.name.c_str()).toLatin1()));
-		HwaViewBinder* binder = (HwaViewBinder*)(QMetaType::type(QString(infor.binder.c_str()).toLatin1()));
+		HwaProjectView* view = (HwaProjectView*)QMetaType::create(QMetaType::type(infor.name.c_str()));
+		HwaViewBinder* binder = (HwaViewBinder*)QMetaType::create(QMetaType::type(infor.binder.c_str()));
 		if (view == NULL || binder == NULL)
 		{
 			delete view;
 			delete binder;
 			continue;
 		}
-		
-		if (_root != NULL)
-		{
-			QObject* viewItem = _root->findChild<QObject*>(view->name());
-			if (viewItem != NULL)
-			{
-				connect(view, SIGNAL(command(const QString&, const QVariant&)), 
-					this, SIGNAL(command(const QString&, const QVariant&)));
 
-				connect(view, SIGNAL(changeValue(const QString&, const QVariant&)), 
-					viewItem, SLOT(onChangeValue(const QString&, const QVariant&)));
-				connect(viewItem, SIGNAL(itemChanged(const QString&, const QVariant&)),
-					view, SLOT(onItemChanged(const QString&, const QVariant&)));
-			}
+		view->setProjectName(this->name());
+		binder->start();
+		QObject* viewItem = _root->findChild<QObject*>(view->name());
+		if (viewItem != NULL)
+		{
+			connect(viewItem, SIGNAL(action(QString, QVariant)), 
+				view, SLOT(onAction(QString, QVariant)));
+
+			connect(view, SIGNAL(changeValue(QVariant, QVariant)), 
+				viewItem, SLOT(onChangeValue(const QVariant&, const QVariant&)));
 		}
-		
+		else
+		{
+			qDebug() << "Cannot find view, name is " << view->name() << "parent item:" << _root;
+		}
+
 		_views.push_back(view);
 		_binders.push_back(binder);
 
@@ -96,18 +97,7 @@ void HwaCanProject::clear()
 
 	foreach (HwaProjectView* view, _views)
 	{
-		QObject* viewItem = this->findChild<QObject*>(view->name());
-		Q_ASSERT(viewItem!= NULL && view != NULL);
-		if (viewItem != NULL)
-		{
-			disconnect(view, SIGNAL(command(const QString&, const QVariant&)), 
-				this, SIGNAL(command(const QString&, const QVariant&)));
-
-			disconnect(view, SIGNAL(changeValue(const QString&, const QVariant&)), 
-				viewItem, SLOT(onChangeValue(const QString&, const QVariant&)));
-			disconnect(viewItem, SIGNAL(itemChanged(const QString&, const QVariant&)),
-				view, SLOT(onItemChanged(const QString&, const QVariant&)));
-		}
+		disconnect(this, 0, 0, 0);
 
 		delete view;
 	}
@@ -127,11 +117,16 @@ void HwaCanProject::onAction(const QString& action, const QVariant& param)
 	{
 		QJsonObject jObj = json.object();
 		int type = jObj.value("type").toInt();
-		if (type == 2 && jObj.contains("viewName"))
+		//if (type == 2 && jObj.contains("viewName"))
+		//{
+		//	HwaProjectView* view = this->findView(jObj.value("viewName").toString());
+		//	Q_ASSERT(view != NULL);
+		//	view->onAction(jObj.value("viewName").toString(), param);
+		//}
+		switch (type)
 		{
-			HwaProjectView* view = this->findView(jObj.value("viewName").toString());
-			Q_ASSERT(view != NULL);
-			view->onAction(jObj.value("viewName").toString(), param);
+		default:
+			break;
 		}
 		
 	}

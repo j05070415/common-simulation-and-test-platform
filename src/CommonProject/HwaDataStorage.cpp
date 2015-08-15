@@ -2,39 +2,36 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonParseError>
+#include <QMutexLocker>
+#include <QDebug>
 
 #include "HwaViewBinder.h"
 
 #include "HwaDataStorage.h"
 
-HwaBinderDataSource::HwaBinderDataSource(HwaViewBinder* binder, DataStorage* source)
-	: _binder(binder)
-	, _source(source)
+HwaDataStorage::HwaDataStorage(DataStorage* source)
+	: _source(source)
+	, _stoped(true)
 {
-
 }
 
-HwaBinderDataSource::~HwaBinderDataSource()
+HwaDataStorage::~HwaDataStorage()
 {
+	_stoped = true;
 
+	WAIT_THREAD_FINISHED
 }
 
-void HwaBinderDataSource::enqueue(const QString& infor)
+void HwaDataStorage::enqueue(const QJsonObject& infor)
 {
 	if (this->checkInfor(infor))
 	{
+		QMutexLocker locker(&_mutex);
 		_queue.enqueue(infor);
-
-		this->wakeOne();
-	}
-
-	if (!this->isRunning())
-	{
-		this->wakeOne();
 	}
 }
 
-void HwaBinderDataSource::query(const QString& infor)
+void HwaDataStorage::query(const QJsonObject& infor)
 {
 	//_source查询数据
 	//给_binder发送
@@ -71,61 +68,77 @@ void HwaBinderDataSource::query(const QString& infor)
 	c->eof = 66;
 	uchar* data = (uchar*)c;
 
-	_binder->enqueue(infor, data);
-}
+	QJsonObject jobj = infor;
+	jobj["length"] = QJsonValue((int)sizeof(CanData));
 
-void HwaBinderDataSource::processReportInfor(const QString& infor)
-{
-	QVector<QString>& infors = _binder->processReportInfor(infor);
-	foreach (const QString& rawInfor, infors)
+#ifndef NDEBUG
+	for (int i=0; i<1000; ++i)
 	{
-		this->enqueue(rawInfor);
-	}
-}
-
-void HwaBinderDataSource::run()
-{
-	//遍历队列
-	while (true)
-	{
-		QString infor = _queue.dequeue();
-
-		//查询数据,将查询数据给绑定器解析处理,
-		this->query(infor);
-
-		if (_queue.isEmpty())
+		c->id = i;
+		foreach (HwaDataSourceObserver* binder, _observers)
 		{
-			this->abort();
+			binder->notify(jobj, data);
+		}
+		msleep(10);
+	}
+#else
+	foreach (HwaDataSourceObserver* binder, _observers)
+	{
+		binder->notify(jobj, data);
+	}
+#endif
+
+	delete c;
+}
+
+void HwaDataStorage::processReportInfor(const QJsonObject& infor)
+{
+	foreach (HwaDataSourceObserver* observer, _observers)
+	{
+		QVector<QJsonObject>& infors = observer->processReportInfor(infor);
+		foreach (const QJsonObject& rawInfor, infors)
+		{
+			this->enqueue(rawInfor);
 		}
 	}
 }
 
-bool HwaBinderDataSource::checkInfor(const QString& infor)
+void HwaDataStorage::run()
 {
-	QJsonParseError error;
-	QJsonDocument jDoc = QJsonDocument::fromJson(infor.toLatin1(), &error);
-	if (error.error == QJsonParseError::NoError)
+	qDebug("storage started!");
+	_stoped = false;
+	//遍历队列
+	while (!_stoped)
 	{
-		QJsonObject jobj = jDoc.object();
-		
-		return jobj.contains("view") && jobj.contains("item") 
-			&& jobj.contains("path") && jobj.contains("id")
-			&& jobj.contains("row") && jobj.contains("count");
+		if (!_queue.isEmpty())
+		{
+			QMutexLocker locker(&_mutex);
+			QJsonObject& infor = _queue.dequeue();
+			locker.unlock();
+
+			//查询数据,将查询数据给绑定器解析处理,
+			this->query(infor);
+		}
+		else
+		{
+			msleep(1);
+		}
 	}
 
-	return false;
+	qDebug("storage exited!");
 }
 
-void HwaBinderDataSource::abort()
+bool HwaDataStorage::checkInfor(const QJsonObject& jobj)
 {
-	_mutex.lock();
-	_condition.wait(&_mutex);
-	_mutex.unlock();
+	return jobj.contains("view") && jobj.contains("item") 
+		&& jobj.contains("path") && jobj.contains("id")
+		&& jobj.contains("row") && jobj.contains("count");
 }
 
-void HwaBinderDataSource::wakeOne()
+void HwaDataStorage::addObserver(HwaDataSourceObserver* observer)
 {
-	_mutex.lock();
-	_condition.wakeOne();
-	_mutex.unlock();
+	if (observer != NULL)
+	{
+		_observers.push_back(observer);
+	}
 }

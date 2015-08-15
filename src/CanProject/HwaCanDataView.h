@@ -25,7 +25,8 @@ public:
 	~HwaCanDataView();
 	HwaCanDataView(const HwaCanDataView&);
 
-	virtual QString name();
+	virtual QString name() const;
+	virtual void onAction(const QString& action, const QVariant& param);
 };
 
 #endif //__HWACANDATAVIEW_H__

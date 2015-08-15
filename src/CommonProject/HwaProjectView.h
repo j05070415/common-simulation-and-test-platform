@@ -26,6 +26,13 @@ class COMMONPROJECT_EXPORT HwaProjectView : public QObject
 {
 	Q_OBJECT
 public:
+	enum ViewAction
+	{
+		NewItemData = 0,
+		UiCompleted = 1
+	};
+
+public:
 	HwaProjectView();
 	~HwaProjectView();
 	HwaProjectView(const HwaProjectView& view);
@@ -80,16 +87,6 @@ public:
 
 public slots:
 	/**
-	*    \fn    onItemChanged
-	*    \brief 响应控件变化，可添加自己的处理然后通知绑定器;
-	*			param既可以是视图中控件命令，也可是下传数据.
-	*    \param const QString & objName
-	*    \param const QVariant & param
-	*    \returns void
-	*/
-	virtual void onItemChanged(const QString& objName, const QVariant& param);
-	
-	/**
 	*    \fn    onAction
 	*    \brief 响应工程传下动作.
 	*    \param const QString & action
@@ -106,16 +103,16 @@ signals:
 	*    \param const QVariant& param
 	*    \returns void
 	*/
-	void command(const QString&, const QVariant&);
+	void command(QString, QVariant);
 	
 	/**
 	*    \fn    changeValue
 	*    \brief 向界面控件发送数据，参数一为json，有project、view、item.
-	*    \param const QString &
+	*    \param const QVariant &
 	*    \param const QVariant &
 	*    \returns void
 	*/
-	void changeValue(const QString&, const QVariant&);
+	void changeValue(QVariant, QVariant);
 
 protected:
 	HwaViewBinder* _binder;

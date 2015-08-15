@@ -7,7 +7,6 @@
 
 #include "HwaProjectView.h"
 
-
 HwaProjectView::HwaProjectView()
 	: _binder(NULL)
 {
@@ -60,31 +59,6 @@ void HwaProjectView::setProjectName(const QString& name)
 	_items = ItemsInfor::fromStdVector(mgr.getBindObjects(_projectName.toStdString(), this->name().toStdString()));
 }
 
-void HwaProjectView::onItemChanged(const QString& objName, const QVariant& param)
-{
-	if (_binder != NULL)
-	{
-		QVector<QString> infors;
-		ItemInfor& item = this->getItemInfor(objName);
-		//{view:"CanDataViewer", item:"label1", path:"ArincSimulation/CAN/port1", id="00000011111", row=0, count=1000}
-		//TODO:默认为一个控件绑定一个path下数据，如有不同绑定子类化自行处理
-		if (item.sources.size() > 0)
-		{
-			QJsonDocument json = QJsonDocument::fromJson(param.toString().toLatin1());
-			QJsonObject jObj = json.object();
-			SourceInfor& source = item.sources[0];
-			QString command = QString("\"view\":\"%1\",\"item\":\"%2\",\"path\":\"%3\",\"id\"=\"%4\",\"row\"=%5,\"count\"=%6")
-				.arg(this->name())
-				.arg(objName)
-				.arg(source.path.c_str())
-				.arg(source.id.c_str())
-				.arg(jObj.value("row").toInt())
-				.arg(jObj.value("count").toInt());
-			_binder->query(command);
-		}
-	}
-}
-
 void HwaProjectView::updateView(const QString& objName, const QVariant& value)
 {
 	emit changeValue(objName, value);
@@ -106,4 +80,5 @@ ItemInfor HwaProjectView::getItemInfor(const QString& objName) const
 void HwaProjectView::onAction( const QString& action, const QVariant& param )
 {
 	// 处理视图命令
+	qDebug("HwaProjectView::onAction");
 }

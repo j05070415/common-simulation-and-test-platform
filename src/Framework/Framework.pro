@@ -14,3 +14,5 @@ include(deployment.pri)
 
 #DISTFILES += \
 #    framework.rc
+
+HEADERS +=

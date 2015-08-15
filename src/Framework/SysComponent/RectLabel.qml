@@ -5,11 +5,14 @@ Rectangle {
     id: root
     width: 100
     height: 62
-    color: "grey"
+    color: "#323232"
     property alias text: label.text
     property alias textColor: label.color
     property alias pixsize: label.font.pixelSize
     property alias alignment: label.horizontalAlignment
+
+    signal clicked()
+
     Text {
         anchors.fill: parent
         id: label
@@ -24,19 +27,16 @@ Rectangle {
     MouseArea {
         anchors.fill: parent
         hoverEnabled: true
+        enabled: true
 
+        onClicked: root.clicked()
         onEntered: {
-            console.log("entered")
-            root.color = "darkBlue"
+            root.color = "blue"
         }
-        onExited: root.color = "grey"
-        onPressedChanged: {
-            console.log("pressed changed")
-        }
+        onExited: root.color = "#323232"
 
         onPressed: {
-            console.log("pressed")
-            root.color = "red"
+            root.color = "darkBlue"
         }
         onReleased: {
             root.color = "blue"

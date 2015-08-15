@@ -25,10 +25,15 @@ class COMMONPROJECT_EXPORT HwaCommonProject : public QObject
 {
 	Q_OBJECT
 public:
+	enum ProjcetAction
+	{
+		UiCompleted = 0
+	};
+public:
 	HwaCommonProject();
 	~HwaCommonProject();
 
-	virtual QString name();
+	virtual QString name() const;
 	virtual bool newProject() = 0;
 	virtual bool open(const QString& path) = 0;
 	virtual bool save(const QString& path) = 0;
@@ -52,7 +57,7 @@ signals:
 	*    \param const QVariant& param
 	*    \returns void
 	*/
-	void command(const QString&, const QVariant&);
+	void command(QString, QVariant);
 
 protected:
 	QObject* _root;

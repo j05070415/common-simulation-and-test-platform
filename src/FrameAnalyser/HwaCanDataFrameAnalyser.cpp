@@ -31,10 +31,7 @@ void HwaCanDataFrameAnalyser::calculateOffset(FrameInfor& frameInfor, const ucha
 			buffer = 0;
 			int size = refSegment.size;
 			uchar* res = this->readValue(data, refSegment.offset, size);
-			//size = qMin<int>(size, sizeof buffer);
 			memcpy(&buffer, res, size);
-			//delete[] res;
-			//res = NULL;
 
 			segment.offset = refSegment.offset + refSegment.size;
 			segment.size = buffer * 8;

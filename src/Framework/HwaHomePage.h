@@ -25,20 +25,16 @@ class HwaHomePage : public QObject
 {
 	Q_OBJECT
 public:
-	enum CommandType
-	{
-		PLATFORM = 1,
-		PROJECT = 2,
-		VIEW = 4,
-		ITEM = 8
-	};
-
 	enum Command
 	{
-		NEW_PROJECT,
-		OPEN_PROJECT,
-		CLOSE_PROJECT,
-		SAVE_PROJECT
+		NEW_PROJECT = 1,
+		OPEN_PROJECT = 2,
+		CLOSE_PROJECT = 3,
+		SAVE_PROJECT = 4,
+		CLICK_NEW_PROJECT = 5,
+		CLICK_OPEN_PROJECT = 6,
+		CLICK_SAVE_PROJECT = 7,
+		CLICK_CLOSE_PROJECT = 8
 	};
 
 public:
@@ -51,7 +47,7 @@ public slots:
 	void onAction(const QString& command, const QVariant& param);
 
 signals:
-	void command(const QString&, const QVariant&);
+	void command(QVariant, QVariant);
 
 private:
 	HwaCommonProject* createProject(const QString& name);

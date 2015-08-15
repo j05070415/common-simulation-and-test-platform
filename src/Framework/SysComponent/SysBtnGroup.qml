@@ -13,14 +13,32 @@ Row
     signal max
     signal restore
     layoutDirection: Qt.LeftToRight
+    z: 1
     //初始最大化
     property bool maxed: true
-    z: 1
+    onMaxedChanged: {
+        if (maxed)
+        {
+            maxbtn.picPressed = "Image/max_pressed.png"
+            maxbtn.picHover = "Image/max_hover.png"
+            maxbtn.picNormal = "Image/max_normal.png"
+            maxbtn.picCurrent = "Image/max_normal.png"
+            console.log("state max")
+        }
+        else
+        {
+            maxbtn.picPressed = "Image/restore_pressed.png"
+            maxbtn.picHover = "Image/restore_hover.png"
+            maxbtn.picNormal = "Image/restore_normal.png"
+            maxbtn.picCurrent = "Image/restore_normal.png"
+            console.log("state restore")
+        }
+    }
 
     function doubleClicked()
     {
         console.log("doubleClicked")
-        max.clicked()
+        maxbtn.clicked()
     }
 
     SysBtn
@@ -63,7 +81,7 @@ Row
     }
 
     SysBtn {
-        id: max
+        id: maxbtn
         x: 652
         y: 1
         picPressed: "Image/max_pressed.png"
@@ -73,23 +91,21 @@ Row
 
         onClicked:
         {
-            if (maxed)
-            {
-                picPressed: "Image/restore_pressed.png"
-                picHover: "Image/restore_hover.png"
-                picNormal: "Image/restore_normal.png"
-                picCurrent: "Image/restore_normal.png"
-                sysbtngroup.restore()
+            if (maxed) {
+                maxbtn.picPressed = "Image/restore_pressed.png"
+                maxbtn.picHover = "Image/restore_hover.png"
+                maxbtn.picNormal = "Image/restore_normal.png"
+                maxbtn.picCurrent = "Image/restore_normal.png"
                 console.log("restore btn clicked")
+                sysbtngroup.restore()
             }
-            else
-            {
-                picPressed: "Image/max_pressed.png"
-                picHover: "Image/max_hover.png"
-                picNormal: "Image/max_normal.png"
-                picCurrent: "Image/max_normal.png"
-                sysbtngroup.max()
+            else {
+                maxbtn.picPressed = "Image/max_pressed.png"
+                maxbtn.picHover = "Image/max_hover.png"
+                maxbtn.picNormal = "Image/max_normal.png"
+                maxbtn.picCurrent = "Image/max_normal.png"
                 console.log("max btn clicked")
+                sysbtngroup.max()
             }
 
             maxed = !maxed

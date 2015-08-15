@@ -10,7 +10,7 @@
 #define __ANALYSERTYPEDEFS_H__
 
 #include <QSharedPointer>
-#include <QVector>
+#include <QList>
 
 #include "typedefs.h"
 #include "HwaBitset.h"

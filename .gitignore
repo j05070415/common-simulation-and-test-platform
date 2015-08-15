@@ -45,6 +45,7 @@ proguard/
 *.lastbuildstate
 *.cache
 *.opensdf
+Makefile*
 ipch/
 bin/
 config/

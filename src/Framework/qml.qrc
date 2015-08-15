@@ -1,21 +1,25 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>SysComponent/Content.qml</file>
         <file>SysComponent/LabelBtn.qml</file>
         <file>SysComponent/MainWidget.qml</file>
         <file>SysComponent/TopTitle.qml</file>
         <file>SysComponent/SysBtn.qml</file>
         <file>SysComponent/SysBtnGroup.qml</file>
-        <file>SysComponent/TabWidget.qml</file>
         <file>SysComponent/ToolBtn.qml</file>
         <file>SysComponent/max_restore_funcion.js</file>
         <file>SysComponent/data_view.js</file>
-        <file>CanProject/CanDataView.qml</file>
-        <file>CanProject/CanProject.qml</file>
-        <file>CanProject/CanStaticsView.qml</file>
-        <file>CanProject/CanTableView.qml</file>
         <file>SysComponent/HomePage.qml</file>
         <file>SysComponent/RectLabel.qml</file>
+        <file>SysComponent/HomePageHeader.qml</file>
+        <file>SysComponent/HomePageContent.qml</file>
+        <file>SysComponent/HomePageContentItem.qml</file>
+        <file>HwaCanProject/CanDataView.qml</file>
+        <file>HwaCanProject/CanStaticsView.qml</file>
+        <file>HwaCanProject/CanTableView.qml</file>
+        <file>HwaCanProject/HwaCanProject.qml</file>
+        <file>SysComponent/control_creator.js</file>
+        <file>SysComponent/HwaTreeNodePropertyEditor.qml</file>
+        <file>SysComponent/HwaTreeView.qml</file>
     </qresource>
 </RCC>
