@@ -47,6 +47,7 @@ struct Can
 };
 
 void TestBitSet();
+void TestPropertyInfors();
 
 int main(int argc, char* argv[])
 {
@@ -106,7 +107,9 @@ int main(int argc, char* argv[])
 
 
 	//TestAnalyser();
-	GenerateData();
+	//GenerateData();
+
+	TestPropertyInfors();
 	return 0;
 }
 

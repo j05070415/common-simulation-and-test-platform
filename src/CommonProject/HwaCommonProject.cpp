@@ -1,10 +1,11 @@
 
+#include "HwaPropertyResponser.h"
 #include "HwaCommonProject.h"
 
 HwaCommonProject::HwaCommonProject()
 	: _root(NULL)
 {
-
+	qRegisterMetaType<HwaPropertyResponser>("HwaPropertyResponser");
 }
 
 HwaCommonProject::~HwaCommonProject()

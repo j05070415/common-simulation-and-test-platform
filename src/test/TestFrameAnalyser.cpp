@@ -56,6 +56,6 @@ void TestAnalyser()
 	{
 		printf("value=%u\n", bitset->toULong());
 	}
-	printf("g=%s\n", bitsets[6]->toStdString().c_str());
+	printf("g=%s\n", bitsets[6]->toString().c_str());
 
 }

@@ -39,8 +39,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>..\CommonProject;..\ResourceManager;..\FrameAnalyser;..\Framework;$(IncludePath)</IncludePath>
-    <LibraryPath>..\bin;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\include;..\CommonProject;..\ResourceManager;..\FrameAnalyser;..\Framework;$(IncludePath)</IncludePath>
+    <LibraryPath>..\bin;..\lib;$(LibraryPath)</LibraryPath>
     <OutDir>..\bin\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -59,7 +59,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>Qt5Cored.lib;ResourceManagerd.lib;tinyxmld.lib;FrameAnalyserd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Qt5Cored.lib;ResourceManagerd.lib;tinyxmld.lib;FrameAnalyserd.lib;CommonProjectd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>%QTDIR%\lib;..\ResourceManager</AdditionalLibraryDirectories>
       <DelayLoadDLLs>
       </DelayLoadDLLs>
@@ -97,8 +97,8 @@
     <ClCompile Include="CanDataGenerater.cpp" />
     <ClCompile Include="test.cpp" />
     <ClCompile Include="TestBitset.cpp" />
+    <ClCompile Include="TestCommonProject.cpp" />
     <ClCompile Include="TestFrameAnalyser.cpp" />
-    <ClCompile Include="TestHomePage.cpp" />
     <ClCompile Include="TestResourceMgr.cpp" />
   </ItemGroup>
   <ItemGroup>

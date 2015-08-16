@@ -19,18 +19,18 @@ Row
     onMaxedChanged: {
         if (maxed)
         {
-            maxbtn.picPressed = "Image/max_pressed.png"
-            maxbtn.picHover = "Image/max_hover.png"
-            maxbtn.picNormal = "Image/max_normal.png"
-            maxbtn.picCurrent = "Image/max_normal.png"
-            console.log("state max")
-        }
-        else
-        {
             maxbtn.picPressed = "Image/restore_pressed.png"
             maxbtn.picHover = "Image/restore_hover.png"
             maxbtn.picNormal = "Image/restore_normal.png"
             maxbtn.picCurrent = "Image/restore_normal.png"
+            console.log("state max")
+        }
+        else
+        {
+            maxbtn.picPressed = "Image/max_pressed.png"
+            maxbtn.picHover = "Image/max_hover.png"
+            maxbtn.picNormal = "Image/max_normal.png"
+            maxbtn.picCurrent = "Image/max_normal.png"
             console.log("state restore")
         }
     }
@@ -84,26 +84,26 @@ Row
         id: maxbtn
         x: 652
         y: 1
-        picPressed: "Image/max_pressed.png"
-        picHover: "Image/max_hover.png"
-        picNormal: "Image/max_normal.png"
-        picCurrent: "Image/max_normal.png"
+        picPressed: "Image/restore_pressed.png"
+        picHover: "Image/restore_hover.png"
+        picNormal: "Image/restore_normal.png"
+        picCurrent: "Image/restore_normal.png"
 
         onClicked:
         {
             if (maxed) {
-                maxbtn.picPressed = "Image/restore_pressed.png"
-                maxbtn.picHover = "Image/restore_hover.png"
-                maxbtn.picNormal = "Image/restore_normal.png"
-                maxbtn.picCurrent = "Image/restore_normal.png"
-                console.log("restore btn clicked")
-                sysbtngroup.restore()
-            }
-            else {
                 maxbtn.picPressed = "Image/max_pressed.png"
                 maxbtn.picHover = "Image/max_hover.png"
                 maxbtn.picNormal = "Image/max_normal.png"
                 maxbtn.picCurrent = "Image/max_normal.png"
+                console.log("restore btn clicked")
+                sysbtngroup.restore()
+            }
+            else {
+                maxbtn.picPressed = "Image/restore_pressed.png"
+                maxbtn.picHover = "Image/restore_hover.png"
+                maxbtn.picNormal = "Image/restore_normal.png"
+                maxbtn.picCurrent = "Image/restore_normal.png"
                 console.log("max btn clicked")
                 sysbtngroup.max()
             }

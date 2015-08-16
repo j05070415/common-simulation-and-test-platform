@@ -88,6 +88,7 @@ function createDelegateControl(json, parent) {
     if (json.type == 'label')
     {
         item = createLabel(json.value, parent)
+        item.color = "grey"
     }
     else if (json.type == 'textEdit')
     {

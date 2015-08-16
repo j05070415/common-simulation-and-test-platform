@@ -63,7 +63,14 @@ QVariant HwaTreeModel::data(const QModelIndex& index, int role) const
         return QVariant();
     }
 
-    HwaTreeItem* item = (HwaTreeItem*)(index.internalPointer());
+	HwaTreeItem* item = (HwaTreeItem*)(index.internalPointer());
+	//处理系统role和属性role
+	if (role < Qt::UserRole || role >= 2000)
+	{
+		return item->data(index.column(), role);
+	}
+
+	//处理QML界面列数据
     QJsonObject jobj;
     switch (role) {
     case Qt::UserRole+1://column1
@@ -193,4 +200,14 @@ QHash<int,QByteArray> HwaTreeModel::roleNames() const
     roles.insert(Qt::UserRole+3, "column3");
 
     return roles;
+}
+
+void HwaTreeModel::setColumnsHeader(const QStringList& columns)
+{
+	if (columns.size() == 0) return;
+	_head->setColumnCount(columns.size());
+	for (int i=0; i<columns.size(); ++i)
+	{
+		_head->setData(i, columns[i]);
+	}
 }
